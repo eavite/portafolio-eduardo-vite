@@ -1,0 +1,19 @@
+CAPTURAS DE PROYECTOS
+
+Guarda aquí las imágenes de los proyectos que vayas agregando al portafolio.
+
+Ejemplos de nombres:
+- conciliador-bancario.png
+- reportes-recaudaciones.png
+- dashboard-cuadre.png
+- anomalías-transaccionales.png
+
+Después de guardar una imagen:
+1. Abre js/config.js.
+2. Busca el proyecto correspondiente.
+3. Cambia image: "" por la ruta del archivo.
+
+Ejemplo:
+image: "images/proyectos/conciliador-bancario.png"
+
+Antes de publicar, verifica que la captura no contenga información confidencial.

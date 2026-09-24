@@ -1,0 +1,21 @@
+JAVASCRIPT
+
+config.js
+- Es el archivo principal para editar textos, enlaces, proyectos, certificaciones y datos visibles.
+- Es el archivo que más probablemente vas a modificar.
+
+app.js
+- Construye la página a partir de config.js.
+- Contiene la lógica del menú, carrusel, proyectos, certificaciones y visor.
+- No lo modifiques salvo que quieras cambiar el funcionamiento.
+
+effects.js
+- Contiene efectos visuales y animaciones.
+- No es necesario tocarlo para actualizar el contenido.
+
+REGLA SIMPLE
+
+Contenido -> js/config.js
+Diseño -> css/style.css
+Funcionamiento -> js/app.js
+Efectos -> js/effects.js

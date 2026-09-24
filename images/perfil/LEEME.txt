@@ -1,0 +1,10 @@
+FOTO DE PERFIL
+
+Coloca aquí tu foto como:
+
+avatar.jpg
+
+La ruta ya está preparada en js/config.js:
+images/perfil/avatar.jpg
+
+Si no colocas una foto, la web puede mostrar tus iniciales.

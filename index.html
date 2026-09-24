@@ -6,8 +6,8 @@
 
 	<!-- Estos dos textos son los que ven Google y las vistas previas al compartir el enlace.
 	     Cámbialos aquí también (el resto del contenido se cambia en js/config.js). -->
-	<title>Eduardo Vite León | Automatización y Análisis de Datos</title>
-	<meta name="description" content="Portafolio de Eduardo Vite León: proyectos de automatización, conciliaciones bancarias y análisis de datos con Python, SQL y Power BI.">
+	<title>Eduardo Vite León | Data Analyst & BI | Python, SQL, Power BI</title>
+	<meta name="description" content="Portafolio de Eduardo Vite León, Analista de Datos y BI con experiencia en retail y crédito. Análisis, automatización y visualización con Python, SQL, Power BI y Excel.">
 
 	<script>
 		/* Aplica el tema guardado antes de pintar la página, para evitar parpadeos */
@@ -36,6 +36,13 @@
 			<nav aria-label="Principal">
 				<ul class="nav-links" id="nav-links"></ul>
 			</nav>
+			<label class="language-switcher" for="language-switcher">
+				<span class="visually-hidden">Idioma</span>
+				<select id="language-switcher" aria-label="Idioma">
+					<option value="es">ES</option>
+					<option value="en">EN</option>
+				</select>
+			</label>
 			<button class="cmdk-trigger" id="cmdk-trigger" type="button" aria-haspopup="dialog" aria-controls="cmdk-overlay" title="Buscar una acción">
 				<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
 				<span>Buscar</span>
@@ -85,17 +92,41 @@
 		</section>
 
 		<!-- Sobre mí -->
-		<section class="section" id="sobre-mi" aria-labelledby="about-title">
+		<section class="section section--about" id="sobre-mi" aria-labelledby="about-title">
 			<div class="wrap">
 				<h2 id="about-title"></h2>
 				<div class="about-grid">
 					<div class="prose" id="about-text"></div>
 					<aside class="about-side">
 						<div id="avatar"></div>
+						<div class="experience-card" id="experience-card">
+							<p class="experience-eyebrow" id="experience-eyebrow"></p>
+							<h3 id="experience-title"></h3>
+							<p class="experience-meta" id="experience-meta"></p>
+							<ul id="experience-points"></ul>
+						</div>
 						<p class="side-title" id="skills-title"></p>
 						<ul class="tags" id="skills"></ul>
 					</aside>
 				</div>
+			</div>
+		</section>
+
+		<!-- Tecnologías -->
+		<section class="section" id="tecnologias" aria-labelledby="tech-title">
+			<div class="wrap">
+				<h2 id="tech-title"></h2>
+				<p class="section-intro" id="tech-intro"></p>
+				<ul class="tech-grid" id="tech-grid"></ul>
+			</div>
+		</section>
+
+		<!-- Resultados -->
+		<section class="section" id="resultados" aria-labelledby="impact-title">
+			<div class="wrap">
+				<h2 id="impact-title"></h2>
+				<p class="section-intro" id="impact-intro"></p>
+				<div class="impact-grid" id="impact-metrics"></div>
 			</div>
 		</section>
 
@@ -104,8 +135,17 @@
 			<div class="wrap">
 				<h2 id="projects-title"></h2>
 				<p class="section-intro" id="projects-intro"></p>
-				<div class="project-list" id="project-list"></div>
+				<div class="pfolio" id="project-list"></div>
 				<div class="actions projects-more" id="projects-more"></div>
+			</div>
+		</section>
+
+		<!-- Certificaciones / Estudios -->
+		<section class="section" id="certificaciones" aria-labelledby="certifications-title">
+			<div class="wrap">
+				<h2 id="certifications-title"></h2>
+				<p class="section-intro" id="certifications-intro"></p>
+				<div class="certification-grid" id="certification-grid"></div>
 			</div>
 		</section>
 
@@ -122,6 +162,17 @@
 		</section>
 
 	</main>
+
+	<div class="cert-lightbox" id="cert-lightbox" hidden>
+		<div class="cert-lightbox-backdrop" data-cert-close></div>
+		<div class="cert-lightbox-panel" role="dialog" aria-modal="true" aria-labelledby="cert-lightbox-title">
+			<div class="cert-lightbox-head">
+				<h2 id="cert-lightbox-title"></h2>
+				<button class="icon-btn cert-lightbox-close" id="cert-lightbox-close" type="button" aria-label="Cerrar">×</button>
+			</div>
+			<div class="cert-lightbox-content" id="cert-lightbox-content"></div>
+		</div>
+	</div>
 
 	<footer class="site-footer">
 		<div class="wrap">
@@ -149,6 +200,7 @@
 	</div>
 
 	<!-- El contenido vive en config.js; app.js lo dibuja en la página -->
+	<script src="js/logos.js" defer></script>
 	<script src="js/config.js" defer></script>
 	<script src="js/app.js" defer></script>
 	<script src="js/effects.js" defer></script>

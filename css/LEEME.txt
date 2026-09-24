@@ -1,0 +1,7 @@
+ESTILOS DE LA WEB
+
+style.css contiene el diseño visual completo: colores, tipografías, espaciados, tarjetas, responsive y componentes.
+
+Si solo quieres cambiar textos, NO necesitas editar este archivo. Usa js/config.js.
+
+Modifica style.css cuando quieras cambiar la apariencia general de la web.

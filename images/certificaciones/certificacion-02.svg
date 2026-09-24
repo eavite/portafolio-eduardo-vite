@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <rect width="1200" height="900" fill="#132238"/>
+  <rect x="70" y="70" width="1060" height="760" rx="18" fill="#0f1d30" stroke="#24384f" stroke-width="3"/>
+  <rect x="110" y="110" width="980" height="12" rx="6" fill="#3fbf8f" opacity=".9"/>
+  <text x="600" y="385" text-anchor="middle" fill="#e7edf5" font-family="Arial, sans-serif" font-size="54" font-weight="600">CERTIFICACIÓN / ESTUDIO 02</text>
+  <text x="600" y="465" text-anchor="middle" fill="#9aacc1" font-family="Arial, sans-serif" font-size="30">ESPACIO RESERVADO · REEMPLAZAR CON PDF O JPG</text>
+  <text x="600" y="540" text-anchor="middle" fill="#5b9df0" font-family="monospace" font-size="24">Eduardo Vite León · Data Analyst &amp; BI</text>
+</svg>

@@ -1,3 +1,17 @@
-Guarda aquí tu foto (avatar.jpg) y las capturas de tus proyectos.
-Luego escribe la ruta en js/config.js, por ejemplo: image: "images/conciliador.png"
-Revisa que las capturas no muestren datos reales.
+IMAGENES DEL PORTAFOLIO
+
+Esta carpeta contiene todos los recursos visuales de la web. Para mantener el proyecto ordenado, cada tipo de imagen tiene su propia carpeta.
+
+Estructura:
+
+images/
+├── certificaciones/   Certificados, cursos y estudios que se muestran en la sección correspondiente.
+├── proyectos/        Capturas, dashboards y evidencias visuales de proyectos.
+└── perfil/            Foto de perfil (avatar.jpg).
+
+REGLAS IMPORTANTES
+
+1. No cambies los nombres de carpetas sin actualizar las rutas en js/config.js.
+2. No subas capturas con información confidencial: nombres, cuentas, montos, correos, credenciales o datos internos.
+3. Para certificaciones puedes usar JPG, PNG o PDF.
+4. Si reemplazas uno de los archivos de ejemplo de certificación, conserva la ruta configurada en js/config.js o actualízala allí.

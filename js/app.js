@@ -10,7 +10,7 @@
     console.error('No se encontró el contenido: revisa que js/config.js exista y no tenga errores.');
     return;
   }
-  const S = SITE;
+  const S = (typeof ACTIVE_SITE !== 'undefined' ? ACTIVE_SITE : SITE);
   const reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
   /* ---------- Utilidades ---------- */
@@ -44,6 +44,30 @@
 
   const tagList = (items) => (items || []).map((t) => h('li', { text: t }));
 
+  /* ---------- Logos de tecnologías ---------- */
+  function techLogo(name, size) {
+    const L = (typeof TECH_LOGOS !== 'undefined') && TECH_LOGOS[name];
+    if (!L) return null;
+    return svgEl('svg', { viewBox: '0 0 24 24', width: size, height: size, fill: L.c, 'aria-hidden': 'true', focusable: 'false' }, svgEl('path', { d: L.p }));
+  }
+  const stackAlias = { Pandas: 'Pandas', SQL: 'SQL Server' };
+  function stackItems(items) {
+    return (items || []).map((t) => h('li', { class: 'has-logo' }, techLogo(stackAlias[t] || t, 14), document.createTextNode(t)));
+  }
+  function renderTech() {
+    const T = S.tech || {};
+    const sec = byId('tecnologias');
+    if (!sec || !(T.items || []).length) { if (sec) sec.remove(); return; }
+    byId('tech-title').textContent = T.title || '';
+    byId('tech-intro').textContent = T.intro || '';
+    const grid = byId('tech-grid');
+    T.items.forEach((name, i) => grid.append(h('li', { class: 'tech-item', style: `--i:${i}` }, h('span', { class: 'tech-tile' }, techLogo(name, 34)), h('span', { class: 'tech-name', text: name }))));
+    if ('IntersectionObserver' in window && !reduceMotion) {
+      const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { grid.classList.add('is-seen'); io.disconnect(); } }), { threshold: .25 });
+      io.observe(grid);
+    } else grid.classList.add('is-seen');
+  }
+
   /* ---------- Secciones fijas ---------- */
   function renderMeta() {
     document.documentElement.lang = S.lang || 'es';
@@ -66,7 +90,7 @@
     byId('hero-name').textContent = S.name || '';
     byId('hero-role').textContent = S.role || '';
     byId('hero-tagline').textContent = S.tagline || '';
-    byId('hero-stack').append(...tagList(S.stack));
+    byId('hero-stack').append(...stackItems(S.stack));
 
     const actions = byId('hero-actions');
     const b = S.buttons || {};
@@ -94,41 +118,189 @@
       box.append(initials);
     }
 
-    byId('skills-title').textContent = A.skillsTitle || '';
-    byId('skills').append(...tagList(A.skills));
+    const E = A.experience || {};
+    byId('experience-eyebrow').textContent = E.eyebrow || '';
+    byId('experience-title').textContent = E.title || '';
+    byId('experience-meta').textContent = E.meta || '';
+    const expPoints = byId('experience-points');
+    (E.points || []).forEach((point) => expPoints.append(h('li', { text: point })));
+    if (!E.title) byId('experience-card').hidden = true;
+
+  }
+
+  function renderImpact() {
+    const I = S.impact || {};
+    byId('impact-title').textContent = I.title || '';
+    byId('impact-intro').textContent = I.intro || '';
+    const wrap = byId('impact-metrics');
+    (I.metrics || []).forEach((m) => {
+      wrap.append(h('article', { class: 'impact-metric' }, h('strong', { text: m.value || '' }), h('span', { text: m.label || '' })));
+    });
+  }
+
+  const PROJECT_ICONS = {
+    conciliador: 'M3 10l9-6 9 6M5 10v8M9 10v8M15 10v8M19 10v8M3 21h18',
+    selenium: 'M12 3v12m0 0-4-4m4 4 4-4M4 20h16',
+    dashboard: 'M4 20V10M10 20V4M16 20v-7M22 20H2',
+    anomal: 'M12 3 22 21H2L12 3zM12 10v5M12 18v.01',
+    warehouse: 'M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5',
+    correos: 'M4 5h16v14H4zM4 7l8 6 8-6'
+  };
+  function projectIcon(p) {
+    const key = p.icon || Object.keys(PROJECT_ICONS).find((k) => (p.repo || '').includes(k)) || 'dashboard';
+    return svgEl('svg', { viewBox: '0 0 24 24', width: 22, height: 22, fill: 'none', stroke: 'currentColor', 'stroke-width': 1.9, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'aria-hidden': 'true', focusable: 'false' }, svgEl('path', { d: PROJECT_ICONS[key] || PROJECT_ICONS.dashboard }));
   }
 
   function renderProjects() {
     const P = S.projects || {};
+    const L = P.labels || {};
     byId('projects-title').textContent = P.title || '';
     byId('projects-intro').textContent = P.intro || '';
-
+    const items = P.items || [];
     const list = byId('project-list');
-    // Sin capturas, los proyectos se muestran en dos columnas; con capturas, en filas
-    if (!(P.items || []).some((p) => p.image)) list.classList.add('project-list--grid');
-    (P.items || []).forEach((p) => {
-      const hasImage = !!p.image;
-      const article = h('article', { class: 'project' + (hasImage ? '' : ' project--text') });
-      if (hasImage) {
-        article.append(h('img', { class: 'project-thumb', src: p.image, alt: p.imageAlt || '', loading: 'lazy' }));
-      }
-      const body = h('div', { class: 'project-body' },
-        h('h3', { text: p.title }),
-        h('p', { text: p.description }),
-        h('ul', { class: 'tags' }, ...tagList(p.tags))
+
+    // Formato lista + detalle: a la izquierda se elige el proyecto y a la derecha se ve completo.
+    const tabs = h('div', { class: 'ptabs', role: 'tablist', 'aria-orientation': 'vertical', 'aria-label': P.title || '' });
+    const panel = h('article', { class: 'pdetail', id: 'project-detail', role: 'tabpanel', tabindex: '0' });
+    list.append(tabs, panel);
+
+    const tabEls = items.map((p, n) => {
+      const btn = h('button', { class: 'ptab', type: 'button', role: 'tab', id: 'ptab-' + n, 'aria-controls': 'project-detail' },
+        h('span', { class: 'ptab-icon' }, projectIcon(p)),
+        h('span', { class: 'ptab-text' }, h('strong', { text: p.title }), h('small', { text: (p.tags || []).join(', ') }))
       );
-      if (p.repo) {
-        body.append(h('a', Object.assign({ class: 'link', href: p.repo, text: P.linkLabel || 'Ver en GitHub' }, linkAttrs(p.repo))));
-      }
-      article.append(body);
-      list.append(article);
+      btn.addEventListener('click', () => show(n));
+      tabs.append(btn);
+      return btn;
     });
+
+    function block(cls, label, text) {
+      return h('div', { class: cls }, h('strong', { text: label }), h('p', { text }));
+    }
+
+    function show(n, animate) {
+      const p = items[n];
+      if (!p) return;
+      tabEls.forEach((t, i) => {
+        t.classList.toggle('is-active', i === n);
+        t.setAttribute('aria-selected', i === n ? 'true' : 'false');
+        t.tabIndex = i === n ? 0 : -1;
+      });
+      panel.setAttribute('aria-labelledby', 'ptab-' + n);
+
+      const grid = h('div', { class: 'pdetail-grid' },
+        p.problem ? block('pdetail-block', L.problem || 'Problema', p.problem) : null,
+        p.process ? block('pdetail-block', L.process || 'Proceso', p.process) : null
+      );
+      const foot = h('div', { class: 'pdetail-foot' },
+        h('ul', { class: 'tags' }, ...tagList(p.tags)),
+        p.repo ? h('a', Object.assign({ class: 'btn btn-ghost', href: p.repo, text: P.linkLabel || 'Ver en GitHub' }, linkAttrs(p.repo))) : null
+      );
+      // replaceChildren convertiría un null en el texto "null", por eso se filtran los huecos
+      panel.replaceChildren(...[
+        h('div', { class: 'pdetail-head' }, h('span', { class: 'pdetail-icon' }, projectIcon(p)), h('h3', { text: p.title })),
+        h('p', { class: 'pdetail-desc', text: p.description || '' }),
+        p.image ? h('img', { class: 'pdetail-shot', src: p.image, alt: p.imageAlt || '', loading: 'lazy' }) : null,
+        grid.children.length ? grid : null,
+        p.result ? block('pdetail-result', L.result || 'Resultado', p.result) : null,
+        foot
+      ].filter(Boolean));
+
+      if (animate !== false && !reduceMotion) {
+        panel.classList.remove('is-swap');
+        void panel.offsetWidth;            // reinicia la animación de entrada
+        panel.classList.add('is-swap');
+      }
+      // En móvil la lista es una fila deslizable: se centra la opción activa sin mover la página
+      if (tabs.scrollWidth > tabs.clientWidth) {
+        const t = tabEls[n];
+        tabs.scrollTo({ left: t.offsetLeft - (tabs.clientWidth - t.offsetWidth) / 2, behavior: reduceMotion ? 'auto' : 'smooth' });
+      }
+    }
+
+    // Teclado: flechas para recorrer la lista, Inicio/Fin para ir a los extremos
+    tabs.addEventListener('keydown', (e) => {
+      const cur = tabEls.findIndex((t) => t.getAttribute('aria-selected') === 'true');
+      let next = cur;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') next = (cur + 1) % tabEls.length;
+      else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') next = (cur - 1 + tabEls.length) % tabEls.length;
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = tabEls.length - 1;
+      else return;
+      e.preventDefault();
+      show(next);
+      tabEls[next].focus({ preventScroll: true });
+    });
+
+    if (items.length) show(0, false);
 
     if (P.moreHref) {
       byId('projects-more').append(
         h('a', Object.assign({ class: 'btn btn-ghost', href: P.moreHref, text: P.moreLabel || 'Ver más' }, linkAttrs(P.moreHref)))
       );
     }
+  }
+
+  function renderCertifications() {
+    const C = S.certifications || {};
+    byId('certifications-title').textContent = C.title || '';
+    byId('certifications-intro').textContent = C.intro || '';
+    const grid = byId('certification-grid');
+    (C.items || []).forEach((item, index) => {
+      const card = h('article', { class: 'certification-card' });
+      const preview = h('button', { class: 'certification-preview', type: 'button', 'aria-label': (item.title || 'Certification') + ' — ' + (C.openLabel || 'Open') });
+      const isPdf = (item.type === 'pdf') || /\.pdf(?:$|[?#])/i.test(item.file || '');
+      if (isPdf) {
+        preview.append(h('div', { class: 'certification-pdf-placeholder' }, h('span', { text: 'PDF' })));
+      } else {
+        const img = h('img', { src: item.file || '', alt: item.title || '', loading: 'lazy' });
+        preview.append(img);
+      }
+      preview.addEventListener('click', () => openCertification(item, index));
+      card.append(preview, h('div', { class: 'certification-meta' }, h('h3', { text: item.title || '' }), h('span', { text: item.note || '' })));
+      grid.append(card);
+    });
+  }
+
+  let activeCertIndex = -1;
+  function openCertification(item, index) {
+    const modal = byId('cert-lightbox');
+    const content = byId('cert-lightbox-content');
+    const title = byId('cert-lightbox-title');
+    if (!modal || !content) return;
+    activeCertIndex = index;
+    title.textContent = item.title || '';
+    content.replaceChildren();
+    const isPdf = (item.type === 'pdf') || /\.pdf(?:$|[?#])/i.test(item.file || '');
+    if (isPdf) {
+      content.append(h('iframe', { class: 'cert-lightbox-pdf', src: item.file, title: item.title || 'PDF' }));
+    } else {
+      content.append(h('img', { class: 'cert-lightbox-image', src: item.file, alt: item.title || '' }));
+    }
+    modal.hidden = false;
+    document.body.classList.add('modal-open');
+    byId('cert-lightbox-close')?.focus();
+  }
+
+  function closeCertification() {
+    const modal = byId('cert-lightbox');
+    if (!modal) return;
+    modal.hidden = true;
+    byId('cert-lightbox-content')?.replaceChildren();
+    document.body.classList.remove('modal-open');
+    activeCertIndex = -1;
+  }
+
+  function setupCertificationLightbox() {
+    byId('cert-lightbox-close')?.addEventListener('click', closeCertification);
+    byId('cert-lightbox')?.addEventListener('click', (e) => {
+      if (e.target.matches('[data-cert-close]')) closeCertification();
+    });
+    document.addEventListener('keydown', (e) => {
+      const modal = byId('cert-lightbox');
+      if (!modal || modal.hidden) return;
+      if (e.key === 'Escape') closeCertification();
+    });
   }
 
   // Pequeño set de íconos para la lista de contacto. Se elige uno solo (o ninguno)
@@ -186,6 +358,17 @@
     byId('footer-text').textContent = (S.footer || '').replace('{year}', new Date().getFullYear());
   }
 
+  function setupLanguage() {
+    const select = byId('language-switcher');
+    if (!select) return;
+    select.value = (typeof ACTIVE_LANG !== 'undefined' ? ACTIVE_LANG : 'es');
+    select.addEventListener('change', () => {
+      const lang = select.value === 'en' ? 'en' : 'es';
+      try { localStorage.setItem('portfolio-lang', lang); } catch (e) {}
+      window.location.reload();
+    });
+  }
+
   /* ---------- Tema claro / oscuro ---------- */
   function setupTheme() {
     byId('theme-toggle').addEventListener('click', () => {
@@ -194,6 +377,61 @@
       root.setAttribute('data-theme', next);
       try { localStorage.setItem('theme', next); } catch (e) { /* sin almacenamiento: no pasa nada */ }
     });
+  }
+
+  /* =====================================================================
+     DIAPOSITIVA: dashboard ejecutivo
+     ===================================================================== */
+  function buildDashboardSlide(cfg) {
+    const kpis = cfg.kpis || [];
+    const values = cfg.chart || [];
+    const max = Math.max(...values, 1);
+    const bars = values.map((v) => ({ v, el: h('div', { class: 'dash-bar' }), h: Math.max(8, (v / max) * 100) }));
+    const chart = h('div', { class: 'dash-chart' });
+    bars.forEach((b, i) => chart.append(h('div', { class: 'dash-bar-wrap' }, h('span', { class: 'dash-bar-value', text: String(b.v) }), b.el, h('span', { class: 'dash-bar-label', text: ['L','M','X','J','V','S','D'][i] || String(i + 1) }))));
+    const kp = kpis.map((k) => {
+      const strong = h('strong', { text: k.value || '' });
+      const digits = /^[\d.,]+$/.test(k.value || '') ? parseInt(k.value.replace(/\D/g, ''), 10) : null;
+      const sep = ((k.value || '').match(/[.,]/) || [''])[0];
+      return { strong, digits, sep, txt: k.value || '', el: h('div', { class: 'dashboard-kpi' }, h('span', { class: 'dashboard-kpi-label', text: k.label || '' }), strong, h('small', { text: k.delta || '' })) };
+    });
+    const panel = h('div', { class: 'panel' },
+      h('div', { class: 'panel-head' }, h('span', { class: 'panel-title', text: cfg.title || '' }), h('span', { class: 'panel-note', text: cfg.note || '' })),
+      h('div', { class: 'dashboard-body' },
+        h('div', { class: 'dashboard-period', text: cfg.period || '' }),
+        h('div', { class: 'dashboard-kpis' }, ...kp.map((k) => k.el)),
+        h('div', { class: 'dash-chart-head' }, h('span', { text: cfg.chartTitle || '' }), h('span', { text: 'Volumen relativo' })),
+        chart
+      )
+    );
+    const fmtN = (n, sep) => sep ? String(n).replace(/\B(?=(\d{3})+(?!\d))/g, sep) : String(n);
+    function reset() {
+      bars.forEach((b) => { b.el.style.height = '0%'; });
+      kp.forEach((k) => { k.el.classList.remove('in'); k.strong.textContent = k.digits !== null ? '0' : k.txt; });
+    }
+    let token = 0;
+    async function play() {
+      const mine = ++token; const alive = () => mine === token;
+      reset();
+      if (reduceMotion) { bars.forEach((b) => { b.el.style.height = b.h + '%'; }); kp.forEach((k) => { k.el.classList.add('in'); k.strong.textContent = k.txt; }); return; }
+      for (const k of kp) {
+        await sleep(160); if (!alive()) return;
+        k.el.classList.add('in');
+        if (k.digits !== null) {   // el número cuenta hasta su valor
+          const t0 = performance.now();
+          (function step(now) {
+            if (!alive()) return;
+            const p = Math.min(1, (now - t0) / 900);
+            k.strong.textContent = fmtN(Math.round(k.digits * (1 - Math.pow(1 - p, 3))), k.sep);
+            if (p < 1) requestAnimationFrame(step);
+          })(t0);
+        }
+      }
+      await sleep(250);
+      for (const b of bars) { if (!alive()) return; b.el.style.height = b.h + '%'; await sleep(70); }
+    }
+    reset();
+    return { el: panel, controller: { play, cancel: () => { token++; } } };
   }
 
   /* =====================================================================
@@ -483,13 +721,52 @@
   }
 
   /* =====================================================================
+     DIAPOSITIVA: automatización
+     ===================================================================== */
+  function buildAutomationSlide(cfg) {
+    const steps = cfg.steps || [];
+    const flow = h('div', { class: 'automation-flow' });
+    const stepEls = [], arrows = [];
+    steps.forEach((step, i) => {
+      const el = h('div', { class: 'automation-step' }, h('span', { class: 'automation-index', text: step.label || String(i + 1) }), h('div', null, h('strong', { text: step.title || '' }), h('p', { text: step.text || '' })));
+      stepEls.push(el); flow.append(el);
+      if (i < steps.length - 1) { const ar = h('span', { class: 'automation-arrow', text: '→', 'aria-hidden': 'true' }); arrows.push(ar); flow.append(ar); }
+    });
+    const impact = cfg.impact || {};
+    const before = h('strong', { class: 'auto-before', text: impact.before || '' });
+    const after = h('strong', { class: 'auto-after', text: impact.after || '' });
+    const impactEl = h('div', { class: 'automation-impact' }, h('span', { class: 'automation-impact-label', text: impact.label || '' }), h('div', { class: 'automation-impact-values' }, before, h('span', { text: '→' }), after));
+    const panel = h('div', { class: 'panel' },
+      h('div', { class: 'panel-head' }, h('span', { class: 'panel-title', text: cfg.title || '' }), h('span', { class: 'panel-note', text: cfg.note || '' })),
+      h('div', { class: 'automation-body' }, flow, impactEl)
+    );
+    const reset = () => { stepEls.forEach((e) => e.classList.remove('is-on')); arrows.forEach((e) => e.classList.remove('is-on')); impactEl.classList.remove('is-on'); };
+    const finish = () => { stepEls.forEach((e) => e.classList.add('is-on')); arrows.forEach((e) => e.classList.add('is-on')); impactEl.classList.add('is-on'); };
+    let token = 0;
+    async function play() {
+      const mine = ++token; const alive = () => mine === token;
+      reset();
+      if (reduceMotion) { finish(); return; }
+      for (let i = 0; i < stepEls.length; i++) {
+        await sleep(650); if (!alive()) return;
+        stepEls[i].classList.add('is-on');
+        if (arrows[i]) arrows[i].classList.add('is-on');
+      }
+      await sleep(500); if (!alive()) return;
+      impactEl.classList.add('is-on');
+    }
+    reset();
+    return { el: panel, controller: { play, cancel: () => { token++; } } };
+  }
+
+  /* =====================================================================
      CARRUSEL: une las diapositivas con flechas, puntos y repetición
      ===================================================================== */
   function setupDeck() {
     const cfg = S.deck || {};
     const wrap = byId('deck-wrap');
-    const builders = { chart: buildChartSlide, table: buildTableSlide, sql: buildSqlSlide };
-    const configFor = { chart: S.chart, table: S.ledger, sql: S.sql };
+    const builders = { dashboard: buildDashboardSlide, table: buildTableSlide, sql: buildSqlSlide, automation: buildAutomationSlide };
+    const configFor = { dashboard: S.dashboard, table: S.ledger, sql: S.sql, automation: S.automation };
     const order = (Array.isArray(cfg.order) ? cfg.order : []).filter((t) => builders[t] && configFor[t]);
 
     if (!wrap || order.length === 0) {
@@ -590,9 +867,14 @@
   renderNav();
   renderHero();
   renderAbout();
+  renderImpact();
+  renderTech();
   renderProjects();
+  renderCertifications();
   renderContact();
   renderFooter();
   setupTheme();
+  setupLanguage();
+  setupCertificationLightbox();
   setupDeck();
 })();
