@@ -15,7 +15,7 @@
 
 const USUARIO_GITHUB = "eavite";                 // <- tu usuario de GitHub
 const CORREO         = "eduardovite1111@gmail.com";      // <- tu correo profesional
-const LINKEDIN       = "https://www.linkedin.com/in/eduardo-vite-le%C3%B3n-b26535227/";
+const LINKEDIN       = "https://www.linkedin.com/in/eduardo-vite/";
 const GITHUB         = "https://github.com/" + USUARIO_GITHUB;
 
 
