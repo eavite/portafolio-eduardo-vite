@@ -2,15 +2,6 @@ CERTIFICACIONES / ESTUDIOS
 
 Aquí se guardan los certificados, cursos o documentos académicos que quieras mostrar en el portafolio.
 
-Los cuatro archivos SVG que vienen inicialmente son SOLO MARCADORES. No representan certificaciones reales.
-
-Marcadores actuales:
-- certificacion-01.svg
-- certificacion-02.svg
-- certificacion-03.svg
-- certificacion-04.svg
-
-Cuando tengas un documento real:
 1. Guarda el JPG/PNG/PDF en esta carpeta.
 2. Abre js/config.js.
 3. Busca la sección certifications.
@@ -21,4 +12,4 @@ Ejemplo:
 file: "images/certificaciones/curso-power-bi.pdf"
 type: "pdf"
 
-El visor de la web permite abrir la evidencia en pantalla completa.
+

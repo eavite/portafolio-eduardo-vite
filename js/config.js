@@ -271,10 +271,10 @@ const SITE = {
     title: "Certificaciones / Estudios",
     intro: "Espacios reservados para certificaciones, cursos o estudios que quieras destacar.",
     items: [
-      { title: "Certificación / Estudio 01", file: "images/certificaciones/certificacion-01.svg", type: "image", note: "Espacio reservado" },
-      { title: "Certificación / Estudio 02", file: "images/certificaciones/certificacion-02.svg", type: "image", note: "Espacio reservado" },
-      { title: "Certificación / Estudio 03", file: "images/certificaciones/certificacion-03.svg", type: "image", note: "Espacio reservado" },
-      { title: "Certificación / Estudio 04", file: "images/certificaciones/certificacion-04.svg", type: "image", note: "Espacio reservado" }
+      { title: "Curso de Python Profesional", file: "images/certificaciones/Captura de pantalla 2026-09-24 160556.png", type: "image", note: "Aprendizaje sobre Bucles, tuplas, Listas, diccionarios, y manejo de Errores." },
+      { title: "Introduccion a las Bases de Datos relaciones", file: "images/certificaciones/Certificado_base_de_datos.png", type: "image", note: "Conocimiento Sólido en: Bases de datos relacionales y Querys Intermedias, manejo de Datos, Análisis de Datos y su estructura." },
+      { title: "Python (Intermedio-Avanzado)", file: "images/certificaciones/Certificado_unemi_python.png", type: "image", note: "Conocimiento y aprendizaje tales como PANDAS, Programación orientada a objetos y estructuras de Datos." },
+      { title: "Curso de bases y conceptos de la ciencia de Datos", file: "images/certificaciones/Curso_bases_ciencia_de_datos.png", type: "image", note: "Introducción en Machine learning y vectores, además de sistemas relacionales." }
     ]
   },
 
@@ -289,7 +289,7 @@ const SITE = {
        Para quitar la columna completa, deja "highlights: []". */
   contact: {
     title: "Contacto",
-    text: "¿Tienes una vacante o un proyecto de datos? Escríbeme, con gusto conversamos.",
+    text: "¿Buscas un perfil de Data Analytics o Comercial? Estoy disponible para oportunidades laborales!.",
     items: [
       { label: "Correo",    text: CORREO,                 href: "mailto:" + CORREO },
       { label: "LinkedIn",  text: "Eduardo Vite León",    href: LINKEDIN },
@@ -298,7 +298,7 @@ const SITE = {
       { label: "Ciudad",    text: "Guayaquil" ,           href: "" }
     ],
     highlights: [
-      { title: "Idiomas",    tags: ["Español (nativo)", "Inglés (intermedio)"] },
+      { title: "Idiomas",    tags: ["Español (nativo)", "Inglés (Avanzado)"] },
       { title: "Fortalezas", tags: ["Atención al detalle", "Trabajo bajo presión", "Proactividad", "Aprendizaje rápido"] }
     ]
   },
