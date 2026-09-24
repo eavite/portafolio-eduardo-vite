@@ -1,0 +1,3 @@
+Guarda aquí tu foto (avatar.jpg) y las capturas de tus proyectos.
+Luego escribe la ruta en js/config.js, por ejemplo: image: "images/conciliador.png"
+Revisa que las capturas no muestren datos reales.
