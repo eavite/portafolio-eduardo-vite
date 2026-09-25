@@ -1,0 +1,12 @@
+PROJECT MEDIA — warehouse-kpis-scd2
+
+Place screenshots, dashboard images or GIFs for this project in this folder.
+
+Then open js/config.js and add the files to that project's "media" array, for example:
+media: [
+  { src: "images/proyectos/media/warehouse-kpis-scd2/dashboard.png", alt: "Dashboard overview" },
+  { src: "images/proyectos/media/warehouse-kpis-scd2/process.gif", alt: "Automation process" }
+]
+
+Supported formats: PNG, JPG, JPEG, WEBP and GIF.
+Do not upload confidential company information.

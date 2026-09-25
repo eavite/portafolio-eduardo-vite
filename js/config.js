@@ -188,6 +188,10 @@ const SITE = {
   projects: {
     title: "Proyectos",
     intro: "",                                // Texto opcional debajo del título
+    mediaTitle: "Visuales del proyecto",
+    mediaHint: "Dashboards, capturas, GIFs y videos cortos",
+    mediaEmptyTitle: "Visuales próximamente",
+    mediaEmptyText: "Este espacio está preparado para capturas de dashboards, gráficos, GIFs o videos cortos relacionados con el proyecto.",
     linkLabel: "Ver proyecto",
     labels: { problem: "Problema", process: "Proceso", result: "Resultado" },
     moreLabel: "Ver todos en GitHub",
@@ -202,7 +206,13 @@ const SITE = {
         tags: ["Python", "pandas", "Tkinter"],
         repo: GITHUB + "/conciliador-bancario",
         image: "",
-        imageAlt: "Captura del conciliador bancario"
+        imageAlt: "Captura del conciliador bancario",
+        media: [
+          // { type: "image", src: "images/proyectos/media/conciliador-bancario/dashboard.png", alt: "Dashboard principal", caption: "Vista general del conciliador" },
+          // { type: "image", src: "images/proyectos/media/conciliador-bancario/detalle.png", alt: "Detalle de diferencias", caption: "Detalle de movimientos" },
+          // { type: "image", src: "images/proyectos/media/conciliador-bancario/demo.gif", alt: "Flujo del proceso", caption: "Recorrido del proceso automatizado" },
+          // { type: "video", src: "images/proyectos/media/conciliador-bancario/demo.mp4", alt: "Demostración del proyecto", caption: "Demostración corta" }
+        ]
       },
       {
         title: "Reportes de recaudaciones automáticos",
@@ -382,6 +392,7 @@ Object.assign(SITE_EN, {
       "I currently work at Pycca S.A., a retail company with its own credit system. We reconcile daily information from banks and internal systems across more than 100 stores. Using Python, SQL and Selenium, I have automated manual tasks such as bank reconciliations, report downloads and data consolidation.",
       "I am building my career toward Data Analysis and Business Intelligence. The projects on this page are based on work and learning problems, using anonymized or illustrative data. I am looking to keep developing in a role where I can turn data into useful information for decision-making."
     ],
+    avatar: SITE_ES.about.avatar,
     avatarAlt: "Photo of Eduardo Vite León",
     experience: { eyebrow: "DATA EXPERIENCE", title: "PYCCA S.A.", meta: "Retail & Credit", points: [
       "Reconciliation of banking information and internal systems.",
@@ -400,24 +411,24 @@ Object.assign(SITE_EN, {
     ]
   },
   projects: {
-    title: "Projects", intro: "", linkLabel: "View project", labels: { problem: "Problem", process: "Process", result: "Result" }, moreLabel: "View all on GitHub", moreHref: GITHUB,
+    title: "Projects", intro: "", mediaTitle: "Project visuals", mediaHint: "Dashboards, screenshots and GIFs", mediaEmptyTitle: "Visuals coming soon", mediaEmptyText: "This space is ready for dashboard screenshots, charts, GIFs or short videos related to the project.", linkLabel: "View project", labels: { problem: "Problem", process: "Process", result: "Result" }, moreLabel: "View all on GitHub", moreHref: GITHUB,
     items: [
-      { title: "Multi-bank reconciliation tool", description: "Cross-checks internal transactions against bank reports and identifies differences without manual review.", problem: "Manually comparing internal and bank transactions makes it harder to detect differences on time.", process: "File and data extraction, transformation with Pandas and transaction matching.", result: "Centralizes reconciliation and makes differences requiring review easier to identify.", tags: ["Python","pandas","Tkinter"], repo: GITHUB+"/conciliador-bancario", image: "", imageAlt: "Screenshot of the bank reconciliation tool" },
-      { title: "Automated collection reports", description: "Downloads reports from an internal portal each morning and prepares the Excel summary without manual intervention.", problem: "Daily report downloading and consolidation requires repetitive manual tasks.", process: "Automated navigation and downloads with Selenium and consolidation in Excel.", result: "Prepares a daily summary with less manual intervention.", tags: ["Python","Selenium","Excel"], repo: GITHUB+"/reportes-recaudaciones-selenium", image: "", imageAlt: "Screenshot of the collection report in Excel" },
-      { title: "Monthly reconciliation dashboard", description: "Shows differences between collected amounts and the final closing report.", problem: "Reviewing closing differences across multiple reports makes it difficult to get a quick view of the result.", process: "SQL-based data preparation to feed indicators and visualizations.", result: "Makes the reconciliation visible and helps locate differences from a dashboard.", tags: ["SQL","Power BI"], repo: GITHUB+"/dashboard-cuadre-recaudaciones", image: "", imageAlt: "Screenshot of the monthly reconciliation dashboard in Power BI" },
-      { title: "Transaction anomaly detection", description: "Identifies unusual transactions to prioritize for review.", problem: "Reviewing large transaction volumes makes it difficult to detect behavior outside the usual pattern.", process: "Cleaning and analysis of transactions with Python and Pandas to identify outliers.", result: "Helps prioritize transactions that require a more detailed review.", tags: ["Python","pandas"], repo: GITHUB+"/deteccion-anomalias-transacciones", image: "", imageAlt: "Screenshot of transaction anomaly detection" },
-      { title: "Data warehouse and historical KPIs (SCD2)", description: "Dimensional model that preserves change history and feeds indicators.", problem: "Historical changes can be lost when only the current state of the data is kept.", process: "Design of a dimensional model with change history using SCD2.", result: "Preserves data evolution and provides a base for historical indicators.", tags: ["SQL"], repo: GITHUB+"/warehouse-kpis-scd2", image: "", imageAlt: "Diagram of the dimensional model with SCD2 history" },
-      { title: "Email classifier", description: "Classifies emails by request type to organize the inbox.", problem: "Manually classifying requests takes time and makes inbox prioritization harder.", process: "Email processing and classification with Python.", result: "Organizes requests by type to facilitate review and management.", tags: ["Python"], repo: GITHUB+"/clasificador-correos", image: "", imageAlt: "Screenshot of the email classifier" }
+      { title: "Multi-bank reconciliation tool", description: "Cross-checks internal transactions against bank reports and identifies differences without manual review.", problem: "Manually comparing internal and bank transactions makes it harder to detect differences on time.", process: "File and data extraction, transformation with Pandas and transaction matching.", result: "Centralizes reconciliation and makes differences requiring review easier to identify.", tags: ["Python","pandas","Tkinter"], repo: GITHUB+"/conciliador-bancario", image: "", imageAlt: "Screenshot of the bank reconciliation tool", media: [] },
+      { title: "Automated collection reports", description: "Downloads reports from an internal portal each morning and prepares the Excel summary without manual intervention.", problem: "Daily report downloading and consolidation requires repetitive manual tasks.", process: "Automated navigation and downloads with Selenium and consolidation in Excel.", result: "Prepares a daily summary with less manual intervention.", tags: ["Python","Selenium","Excel"], repo: GITHUB+"/reportes-recaudaciones-selenium", image: "", imageAlt: "Screenshot of the collection report in Excel", media: [] },
+      { title: "Monthly reconciliation dashboard", description: "Shows differences between collected amounts and the final closing report.", problem: "Reviewing closing differences across multiple reports makes it difficult to get a quick view of the result.", process: "SQL-based data preparation to feed indicators and visualizations.", result: "Makes the reconciliation visible and helps locate differences from a dashboard.", tags: ["SQL","Power BI"], repo: GITHUB+"/dashboard-cuadre-recaudaciones", image: "", imageAlt: "Screenshot of the monthly reconciliation dashboard in Power BI", media: [] },
+      { title: "Transaction anomaly detection", description: "Identifies unusual transactions to prioritize for review.", problem: "Reviewing large transaction volumes makes it difficult to detect behavior outside the usual pattern.", process: "Cleaning and analysis of transactions with Python and Pandas to identify outliers.", result: "Helps prioritize transactions that require a more detailed review.", tags: ["Python","pandas"], repo: GITHUB+"/deteccion-anomalias-transacciones", image: "", imageAlt: "Screenshot of transaction anomaly detection", media: [] },
+      { title: "Data warehouse and historical KPIs (SCD2)", description: "Dimensional model that preserves change history and feeds indicators.", problem: "Historical changes can be lost when only the current state of the data is kept.", process: "Design of a dimensional model with change history using SCD2.", result: "Preserves data evolution and provides a base for historical indicators.", tags: ["SQL"], repo: GITHUB+"/warehouse-kpis-scd2", image: "", imageAlt: "Diagram of the dimensional model with SCD2 history", media: [] },
+      { title: "Email classifier", description: "Classifies emails by request type to organize the inbox.", problem: "Manually classifying requests takes time and makes inbox prioritization harder.", process: "Email processing and classification with Python.", result: "Organizes requests by type to facilitate review and management.", tags: ["Python"], repo: GITHUB+"/clasificador-correos", image: "", imageAlt: "Screenshot of the email classifier", media: [] }
     ]
   },
   certifications: {
     title: "Certifications / Education",
-    intro: "Reserved spaces for certifications, courses or studies you want to highlight.",
+    intro: "Selected courses and learning experiences related to data, programming and databases.",
     items: [
-      { title: "Certification / Study 01", file: "images/certificaciones/certificacion-01.svg", type: "image", note: "Reserved space" },
-      { title: "Certification / Study 02", file: "images/certificaciones/certificacion-02.svg", type: "image", note: "Reserved space" },
-      { title: "Certification / Study 03", file: "images/certificaciones/certificacion-03.svg", type: "image", note: "Reserved space" },
-      { title: "Certification / Study 04", file: "images/certificaciones/certificacion-04.svg", type: "image", note: "Reserved space" }
+      { title: "Professional Python Course", file: "images/certificaciones/Captura de pantalla 2026-09-24 160556.png", type: "image", note: "Loops, tuples, lists, dictionaries and error handling." },
+      { title: "Introduction to Relational Databases", file: "images/certificaciones/Certificado_base_de_datos.png", type: "image", note: "Relational databases, intermediate queries, data handling and analysis." },
+      { title: "Python (Intermediate–Advanced)", file: "images/certificaciones/Certificado_unemi_python.png", type: "image", note: "Pandas, object-oriented programming and data structures." },
+      { title: "Data Science Foundations", file: "images/certificaciones/Curso_bases_ciencia_de_datos.png", type: "image", note: "Introduction to machine learning, vectors and relational systems." }
     ]
   },
   contact: {
@@ -438,5 +449,5 @@ Object.assign(SITE_EN, {
   footer: "© {year} Eduardo Vite León"
 });
 
-const ACTIVE_LANG = (() => { try { return localStorage.getItem('portfolio-lang') === 'en' ? 'en' : 'es'; } catch (e) { return 'es'; } })();
+const ACTIVE_LANG = (() => { try { const saved = localStorage.getItem('portfolio-lang'); return saved === 'en' ? 'en' : 'es'; } catch (e) { return 'es'; } })();
 const ACTIVE_SITE = ACTIVE_LANG === 'en' ? SITE_EN : SITE_ES;

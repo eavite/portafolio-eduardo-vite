@@ -159,86 +159,186 @@
     const items = P.items || [];
     const list = byId('project-list');
 
-    // Formato lista + detalle: a la izquierda se elige el proyecto y a la derecha se ve completo.
-    const tabs = h('div', { class: 'ptabs', role: 'tablist', 'aria-orientation': 'vertical', 'aria-label': P.title || '' });
-    const panel = h('article', { class: 'pdetail', id: 'project-detail', role: 'tabpanel', tabindex: '0' });
-    list.append(tabs, panel);
-
-    const tabEls = items.map((p, n) => {
-      const btn = h('button', { class: 'ptab', type: 'button', role: 'tab', id: 'ptab-' + n, 'aria-controls': 'project-detail' },
-        h('span', { class: 'ptab-icon' }, projectIcon(p)),
-        h('span', { class: 'ptab-text' }, h('strong', { text: p.title }), h('small', { text: (p.tags || []).join(', ') }))
-      );
-      btn.addEventListener('click', () => show(n));
-      tabs.append(btn);
-      return btn;
-    });
+    // Lista vertical interactiva: el proyecto seleccionado se expande en el mismo lugar.
+    const tabs = h('div', { class: 'project-accordion', role: 'tablist', 'aria-orientation': 'vertical', 'aria-label': P.title || '' });
+    list.append(tabs);
 
     function block(cls, label, text) {
       return h('div', { class: cls }, h('strong', { text: label }), h('p', { text }));
     }
 
-    function show(n, animate) {
-      const p = items[n];
-      if (!p) return;
-      tabEls.forEach((t, i) => {
-        t.classList.toggle('is-active', i === n);
-        t.setAttribute('aria-selected', i === n ? 'true' : 'false');
-        t.tabIndex = i === n ? 0 : -1;
+    function mediaFor(p) {
+      const mediaItems = [];
+      if (p.image) mediaItems.push({ src: p.image, type: 'image', alt: p.imageAlt || p.title || 'Project image' });
+      (p.media || []).forEach((m) => {
+        if (typeof m === 'string' && m) mediaItems.push({ src: m, type: 'image', alt: p.title || 'Project media' });
+        else if (m && m.src) mediaItems.push({ src: m.src, type: m.type || 'image', alt: m.alt || p.title || 'Project media', label: m.label || '', caption: m.caption || '' });
       });
-      panel.setAttribute('aria-labelledby', 'ptab-' + n);
+      return mediaItems;
+    }
 
-      const grid = h('div', { class: 'pdetail-grid' },
+    function buildDetail(p) {
+      const detail = h('div', { class: 'project-expanded', role: 'region' });
+      const mediaItems = mediaFor(p);
+      const media = h('div', { class: 'pdetail-media' });
+      media.append(h('div', { class: 'pdetail-media-head' },
+        h('strong', { text: P.mediaTitle || 'Visuales del proyecto' }),
+        h('span', { text: P.mediaHint || 'Dashboards, capturas, GIFs y videos cortos' })
+      ));
+      const mediaStage = h('div', { class: 'pdetail-media-stage' });
+      function mediaNode(item, large) {
+        const type = (item.type || 'image').toLowerCase();
+        if (type === 'video') return h('video', { class: 'pdetail-media-video', src: item.src, controls: 'controls', preload: 'metadata', playsinline: 'playsinline', title: item.alt || '' });
+        if (type === 'pdf') return h('iframe', { class: 'pdetail-media-video', src: item.src, title: item.alt || 'PDF document', loading: 'lazy' });
+        const img = h('img', { class: 'pdetail-media-main', src: item.src, alt: item.alt || '', loading: large ? 'eager' : 'lazy' });
+        img.addEventListener('click', () => openProjectMedia(mediaItems, mediaItems.indexOf(item)));
+        return img;
+      }
+      if (mediaItems.length) {
+        const main = mediaItems[0];
+        mediaStage.append(mediaNode(main, true));
+        if (main.caption || main.label) mediaStage.append(h('p', { class: 'pdetail-media-caption', text: main.caption || main.label }));
+        media.append(mediaStage);
+        if (mediaItems.length > 1) {
+          const thumbs = h('div', { class: 'pdetail-media-thumbs' });
+          mediaItems.forEach((m, i) => {
+            const thumb = h('button', { class: 'pdetail-media-thumb', type: 'button', 'aria-label': `Open visual ${i + 1}` });
+            const type = (m.type || 'image').toLowerCase();
+            if (type === 'image') thumb.append(h('img', { src: m.src, alt: '', loading: 'lazy' }));
+            else thumb.append(h('span', { class: 'pdetail-media-type', text: type === 'video' ? 'VIDEO' : 'PDF' }));
+            thumb.addEventListener('click', () => {
+              mediaStage.replaceChildren(mediaNode(m, true));
+              if (m.caption || m.label) mediaStage.append(h('p', { class: 'pdetail-media-caption', text: m.caption || m.label }));
+              if (type === 'image') openProjectMedia(mediaItems, i);
+            });
+            thumbs.append(thumb);
+          });
+          media.append(thumbs);
+        }
+      } else {
+        mediaStage.append(h('div', { class: 'pdetail-media-empty' },
+          h('span', { class: 'pdetail-media-empty-icon', text: '＋' }),
+          h('strong', { text: P.mediaEmptyTitle || 'Visuales próximamente' }),
+          h('span', { text: P.mediaEmptyText || 'Este espacio está preparado para capturas de dashboards, gráficos, GIFs o videos cortos relacionados con el proyecto.' })
+        ));
+        media.append(mediaStage);
+      }
+
+      const summary = h('div', { class: 'project-expanded-summary' },
         p.problem ? block('pdetail-block', L.problem || 'Problema', p.problem) : null,
-        p.process ? block('pdetail-block', L.process || 'Proceso', p.process) : null
+        p.process ? block('pdetail-block', L.process || 'Proceso', p.process) : null,
+        p.result ? block('pdetail-result', L.result || 'Resultado', p.result) : null
       );
       const foot = h('div', { class: 'pdetail-foot' },
         h('ul', { class: 'tags' }, ...tagList(p.tags)),
-        p.repo ? h('a', Object.assign({ class: 'btn btn-ghost', href: p.repo, text: P.linkLabel || 'Ver en GitHub' }, linkAttrs(p.repo))) : null
+        p.repo ? h('a', Object.assign({ class: 'btn btn-ghost', href: p.repo, text: P.linkLabel || 'Ver proyecto' }, linkAttrs(p.repo))) : null
       );
-      // replaceChildren convertiría un null en el texto "null", por eso se filtran los huecos
-      panel.replaceChildren(...[
-        h('div', { class: 'pdetail-head' }, h('span', { class: 'pdetail-icon' }, projectIcon(p)), h('h3', { text: p.title })),
-        h('p', { class: 'pdetail-desc', text: p.description || '' }),
-        p.image ? h('img', { class: 'pdetail-shot', src: p.image, alt: p.imageAlt || '', loading: 'lazy' }) : null,
-        grid.children.length ? grid : null,
-        p.result ? block('pdetail-result', L.result || 'Resultado', p.result) : null,
-        foot
-      ].filter(Boolean));
-
-      if (animate !== false && !reduceMotion) {
-        panel.classList.remove('is-swap');
-        void panel.offsetWidth;            // reinicia la animación de entrada
-        panel.classList.add('is-swap');
-      }
-      // En móvil la lista es una fila deslizable: se centra la opción activa sin mover la página
-      if (tabs.scrollWidth > tabs.clientWidth) {
-        const t = tabEls[n];
-        tabs.scrollTo({ left: t.offsetLeft - (tabs.clientWidth - t.offsetWidth) / 2, behavior: reduceMotion ? 'auto' : 'smooth' });
-      }
+      detail.append(media, summary, foot);
+      return detail;
     }
 
-    // Teclado: flechas para recorrer la lista, Inicio/Fin para ir a los extremos
-    tabs.addEventListener('keydown', (e) => {
-      const cur = tabEls.findIndex((t) => t.getAttribute('aria-selected') === 'true');
-      let next = cur;
-      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') next = (cur + 1) % tabEls.length;
-      else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') next = (cur - 1 + tabEls.length) % tabEls.length;
-      else if (e.key === 'Home') next = 0;
-      else if (e.key === 'End') next = tabEls.length - 1;
-      else return;
-      e.preventDefault();
-      show(next);
-      tabEls[next].focus({ preventScroll: true });
+    const rows = items.map((p, n) => {
+      const row = h('article', { class: 'project-row' });
+      const btn = h('button', { class: 'project-row-trigger', type: 'button', role: 'tab', id: 'ptab-' + n, 'aria-controls': 'project-expanded-' + n, 'aria-expanded': 'false' },
+        h('span', { class: 'project-row-number', text: String(n + 1).padStart(2, '0') }),
+        h('span', { class: 'project-row-icon', 'aria-hidden': 'true' }, projectIcon(p)),
+        h('span', { class: 'project-row-main' },
+          h('strong', { text: p.title }),
+          h('small', { text: (p.tags || []).join(' · ') })
+        ),
+        h('span', { class: 'project-row-arrow', text: '↗', 'aria-hidden': 'true' })
+      );
+      const detail = buildDetail(p);
+      detail.id = 'project-expanded-' + n;
+      detail.setAttribute('aria-labelledby', 'ptab-' + n);
+      detail.hidden = true;
+      btn.addEventListener('click', () => show(n));
+      row.append(btn, detail);
+      tabs.append(row);
+      return { row, btn, detail };
     });
 
-    if (items.length) show(0, false);
+    function show(n) {
+      const current = rows[n];
+      if (!current) return;
+      const wasOpen = !current.detail.hidden;
+      rows.forEach((item, i) => {
+        const open = i === n && !wasOpen;
+        item.btn.classList.toggle('is-active', open);
+        item.btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        item.detail.hidden = !open;
+        item.row.classList.toggle('is-open', open);
+      });
+    }
+
+    // Primera fila queda visible como entrada rápida, sin abrir toda la información automáticamente.
+    rows.forEach((item, i) => item.btn.tabIndex = i === 0 ? 0 : -1);
+    tabs.addEventListener('keydown', (e) => {
+      const cur = rows.findIndex((r) => r.btn === document.activeElement);
+      if (cur < 0) return;
+      let next = cur;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') next = (cur + 1) % rows.length;
+      else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') next = (cur - 1 + rows.length) % rows.length;
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = rows.length - 1;
+      else return;
+      e.preventDefault();
+      rows.forEach((r, i) => r.btn.tabIndex = i === next ? 0 : -1);
+      rows[next].btn.focus({ preventScroll: true });
+    });
 
     if (P.moreHref) {
-      byId('projects-more').append(
-        h('a', Object.assign({ class: 'btn btn-ghost', href: P.moreHref, text: P.moreLabel || 'Ver más' }, linkAttrs(P.moreHref)))
-      );
+      byId('projects-more').append(h('a', Object.assign({ class: 'btn btn-ghost', href: P.moreHref, text: P.moreLabel || 'Ver todos en GitHub' }, linkAttrs(P.moreHref))));
     }
+  }
+
+  let activeProjectMedia = [];
+  let activeProjectMediaIndex = -1;
+
+  function openProjectMedia(items, index) {
+    const modal = byId('project-lightbox');
+    const content = byId('project-lightbox-content');
+    const title = byId('project-lightbox-title');
+    if (!modal || !content || !items?.length) return;
+    activeProjectMedia = items;
+    activeProjectMediaIndex = index;
+    title.textContent = S.projects?.mediaTitle || 'Project visuals';
+    content.replaceChildren();
+    const item = items[index];
+    content.append(h('img', { class: 'project-lightbox-image', src: item.src, alt: item.alt || '' }));
+    modal.hidden = false;
+    document.body.classList.add('modal-open');
+    byId('project-lightbox-close')?.focus();
+  }
+
+  function closeProjectMedia() {
+    const modal = byId('project-lightbox');
+    if (!modal) return;
+    modal.hidden = true;
+    byId('project-lightbox-content')?.replaceChildren();
+    document.body.classList.remove('modal-open');
+    activeProjectMedia = [];
+    activeProjectMediaIndex = -1;
+  }
+
+  function setupProjectLightbox() {
+    byId('project-lightbox-close')?.addEventListener('click', closeProjectMedia);
+    byId('project-lightbox')?.addEventListener('click', (e) => {
+      if (e.target.matches('[data-project-close]')) closeProjectMedia();
+    });
+    document.addEventListener('keydown', (e) => {
+      const modal = byId('project-lightbox');
+      if (!modal || modal.hidden) return;
+      if (e.key === 'Escape') closeProjectMedia();
+      if (e.key === 'ArrowRight' && activeProjectMedia.length) {
+        activeProjectMediaIndex = (activeProjectMediaIndex + 1) % activeProjectMedia.length;
+        openProjectMedia(activeProjectMedia, activeProjectMediaIndex);
+      }
+      if (e.key === 'ArrowLeft' && activeProjectMedia.length) {
+        activeProjectMediaIndex = (activeProjectMediaIndex - 1 + activeProjectMedia.length) % activeProjectMedia.length;
+        openProjectMedia(activeProjectMedia, activeProjectMediaIndex);
+      }
+    });
   }
 
   function renderCertifications() {
@@ -876,5 +976,6 @@
   setupTheme();
   setupLanguage();
   setupCertificationLightbox();
+  setupProjectLightbox();
   setupDeck();
 })();

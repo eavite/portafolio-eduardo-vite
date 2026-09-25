@@ -1,19 +1,57 @@
-CAPTURAS DE PROYECTOS
+VISUALES DE PROYECTOS
 
-Guarda aquí las imágenes de los proyectos que vayas agregando al portafolio.
+Cada proyecto tiene un espacio preparado para mostrar evidencia visual sin alargar innecesariamente la página.
 
-Ejemplos de nombres:
-- conciliador-bancario.png
-- reportes-recaudaciones.png
-- dashboard-cuadre.png
-- anomalías-transaccionales.png
+FORMATOS DISPONIBLES
 
-Después de guardar una imagen:
-1. Abre js/config.js.
-2. Busca el proyecto correspondiente.
-3. Cambia image: "" por la ruta del archivo.
+1. Imagen / captura
+   type: "image"
+   Ideal para dashboards de Power BI, tablas, gráficos, interfaces o resultados finales.
 
-Ejemplo:
-image: "images/proyectos/conciliador-bancario.png"
+2. GIF
+   type: "image"
+   Un GIF funciona como una imagen y se reproduce automáticamente. Es útil para mostrar filtros, navegación o un flujo corto.
 
-Antes de publicar, verifica que la captura no contenga información confidencial.
+3. Video corto
+   type: "video"
+   Usa MP4 para una demostración breve del proyecto.
+
+4. PDF
+   type: "pdf"
+   Útil para diagramas, reportes o documentos técnicos. Se muestra dentro del visor del proyecto.
+
+EJEMPLO EN js/config.js
+
+media: [
+  {
+    type: "image",
+    src: "images/proyectos/media/mi-proyecto/dashboard.png",
+    alt: "Dashboard principal",
+    caption: "Vista general del dashboard"
+  },
+  {
+    type: "image",
+    src: "images/proyectos/media/mi-proyecto/demo.gif",
+    alt: "Recorrido del dashboard",
+    caption: "Interacción con filtros"
+  },
+  {
+    type: "video",
+    src: "images/proyectos/media/mi-proyecto/demo.mp4",
+    alt: "Demostración del proyecto",
+    caption: "Demostración corta"
+  }
+]
+
+ORDEN RECOMENDADO
+
+1. Dashboard o resultado principal.
+2. Una o dos capturas complementarias.
+3. GIF o video corto si aporta algo que una captura no puede mostrar.
+4. PDF o diagrama solo cuando ayude a entender el proyecto.
+
+No es necesario llenar todos los espacios. Es mejor una evidencia visual clara que muchas capturas pequeñas.
+
+IMPORTANTE
+
+No subas información confidencial: nombres, cuentas, correos, credenciales, datos de clientes, información bancaria interna o cualquier otro dato que no pueda hacerse público.

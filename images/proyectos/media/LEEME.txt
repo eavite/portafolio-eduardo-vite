@@ -1,0 +1,21 @@
+PROJECT MEDIA
+
+Each project has its own folder under this directory.
+Add dashboard screenshots, charts, process captures or GIFs there.
+
+To display them:
+1. Put the file in the project's folder.
+2. Open js/config.js.
+3. Find the corresponding project.
+4. Add each file to its "media" array.
+
+Example:
+media: [
+  { src: "images/proyectos/media/conciliador-bancario/dashboard.png", alt: "Bank reconciliation dashboard" },
+  { src: "images/proyectos/media/conciliador-bancario/process.gif", alt: "Reconciliation process" }
+]
+
+The project detail page will automatically show the first visual as the main preview, thumbnails for additional visuals, and a larger lightbox view when clicked.
+
+Supported formats: PNG, JPG, JPEG, WEBP and GIF.
+Do not upload confidential company information.
