@@ -500,7 +500,7 @@
       h('div', { class: 'dashboard-body' },
         h('div', { class: 'dashboard-period', text: cfg.period || '' }),
         h('div', { class: 'dashboard-kpis' }, ...kp.map((k) => k.el)),
-        h('div', { class: 'dash-chart-head' }, h('span', { text: cfg.chartTitle || '' }), h('span', { text: 'Volumen relativo' })),
+        h('div', { class: 'dash-chart-head' }, h('span', { text: cfg.chartTitle || '' }), h('span', { text: cfg.chartNote || 'Volumen relativo' })),
         chart
       )
     );

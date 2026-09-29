@@ -41,8 +41,6 @@ portafolio-eduardo-vite/
 │   │   └── LEEME.txt
 │   ├── proyectos/
 │   │   ├── LEEME.txt
-│   │   ├── media/
-│   │   │   └── ...una carpeta por proyecto...
 │   │   └── ...capturas...
 │   └── certificaciones/
 │       ├── LEEME.txt
@@ -82,26 +80,12 @@ Guarda las evidencias en:
 
 Los cuatro SVG iniciales son marcadores. Reemplázalos por tus documentos reales cuando los tengas. El visor de la web permite abrir las evidencias en pantalla completa.
 
-### Visuales de proyectos
-La web ya incluye una estructura visual completa dentro de cada proyecto. Puedes mostrar una imagen principal, una galería de capturas, un GIF, un video corto o un PDF.
+### Capturas de proyectos
+Guárdalas en:
 
-Para mantener todo ordenado, guarda los archivos en:
+`images/proyectos/`
 
-`images/proyectos/media/nombre-del-proyecto/`
-
-Después completa `media: [...]` del proyecto correspondiente en `js/config.js`.
-
-Ejemplo:
-
-```js
-media: [
-  { type: "image", src: "images/proyectos/media/mi-proyecto/dashboard.png", alt: "Dashboard principal", caption: "Vista general" },
-  { type: "image", src: "images/proyectos/media/mi-proyecto/demo.gif", alt: "Recorrido", caption: "Interacción con filtros" },
-  { type: "video", src: "images/proyectos/media/mi-proyecto/demo.mp4", alt: "Demostración", caption: "Demostración corta" }
-]
-```
-
-Consulta `images/proyectos/LEEME.txt` para los formatos disponibles y recomendaciones de uso.
+Después actualiza la propiedad `image` del proyecto correspondiente en `js/config.js`.
 
 ## 4. Cómo probar la web
 
@@ -207,7 +191,3 @@ Si solo quieres actualizar tu información, empieza por `js/config.js` y no toqu
 - [ ] Probar la versión móvil.
 - [ ] Revisar el selector ES/EN.
 - [ ] Abrir todos los enlaces importantes antes de publicar.
-
-
-## Project media
-Each project has a dedicated folder under `images/proyectos/media/` for dashboards, screenshots, charts and GIFs. Add the file paths to the project's `media` array in `js/config.js`.
