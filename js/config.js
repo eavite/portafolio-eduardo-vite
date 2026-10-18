@@ -199,22 +199,32 @@ const SITE = {
     moreHref: GITHUB,
     items: [
       {
-        title: "Conciliador bancario multibanco",
-        description: "Cruza las transacciones internas con los reportes del banco (incluye Banred por SFTP) y detecta diferencias sin revisión manual.",
-        problem: "Comparar transacciones internas y bancarias de forma manual dificulta detectar diferencias a tiempo.",
-        process: "Extracción de archivos y datos, transformación con Pandas y comparación de movimientos.",
-        result: "Centraliza la conciliación y facilita identificar diferencias que requieren revisión.",
-        tags: ["Python", "pandas", "Tkinter"],
-        repo: GITHUB + "/conciliador-bancario",
-        image: "",
-        imageAlt: "Captura del conciliador bancario",
-        media: [
-          // { type: "image", src: "images/proyectos/media/conciliador-bancario/dashboard.png", alt: "Dashboard principal", caption: "Vista general del conciliador" },
-          // { type: "image", src: "images/proyectos/media/conciliador-bancario/detalle.png", alt: "Detalle de diferencias", caption: "Detalle de movimientos" },
-          // { type: "image", src: "images/proyectos/media/conciliador-bancario/demo.gif", alt: "Flujo del proceso", caption: "Recorrido del proceso automatizado" },
-          // { type: "video", src: "images/proyectos/media/conciliador-bancario/demo.mp4", alt: "Demostración del proyecto", caption: "Demostración corta" }
-        ]
-      },
+  "title": "Conciliador bancario multibanco",
+  "description": "La aplicación compara pagos del sistema y del banco para concentrar la revisión en las diferencias. Demo pública con datos ficticios.",
+  "problem": "Al cerrar las recaudaciones, comparar dos reportes pago por pago hacía difícil localizar qué faltaba o tenía un importe distinto.",
+  "process": "Organicé la lectura de archivos, los horarios de cierre y el cruce por cliente y referencia en una aplicación.",
+  "result": "El resultado reúne el cuadre y una lista de pendientes con sus fuentes para revisión. La demostración usa datos totalmente ficticios.",
+  "tags": [
+    "Python",
+    "pandas",
+    "SQL",
+    "Tkinter"
+  ],
+  "repo": "proyectos/conciliador-bancario/index.html",
+  "image": "images/proyectos/media/conciliador-bancario/vista-previa.gif",
+  "imageAlt": "Recorrido de la aplicación de demostración en Windows, con pagos y servicios ficticios.",
+  "media": [
+    {
+      "type": "image",
+      "src": "images/proyectos/media/conciliador-bancario/detalle.png",
+      "alt": "Consulta de un servicio ficticio relacionado con un pago pendiente.",
+      "caption": "Una coincidencia aporta una pista; el pago sigue pendiente de revisión."
+    }
+  ],
+  "newTab": true,
+  "previewWide": true,
+  "imageStatic": "images/proyectos/media/conciliador-bancario/vista-previa.png"
+},
       {
         title: "Reportes de recaudaciones automáticos",
         description: "Descarga cada mañana los reportes de un portal interno y arma el resumen en Excel sin intervención.",
@@ -415,7 +425,33 @@ Object.assign(SITE_EN, {
   projects: {
     title: "Projects", intro: "", mediaTitle: "Project visuals", mediaHint: "Dashboards, screenshots and GIFs", mediaEmptyTitle: "Visuals coming soon", mediaEmptyText: "This space is ready for dashboard screenshots, charts, GIFs or short videos related to the project.", linkLabel: "View project", labels: { problem: "Problem", process: "Process", result: "Result" }, moreLabel: "View all on GitHub", moreHref: GITHUB,
     items: [
-      { title: "Multi-bank reconciliation tool", description: "Cross-checks internal transactions against bank reports and identifies differences without manual review.", problem: "Manually comparing internal and bank transactions makes it harder to detect differences on time.", process: "File and data extraction, transformation with Pandas and transaction matching.", result: "Centralizes reconciliation and makes differences requiring review easier to identify.", tags: ["Python","pandas","Tkinter"], repo: GITHUB+"/conciliador-bancario", image: "", imageAlt: "Screenshot of the bank reconciliation tool", media: [] },
+      {
+  "title": "Multi-bank reconciliation tool",
+  "description": "The application compares system and bank payments to focus the review on differences. Public demo with fictional data.",
+  "problem": "Comparing two reports payment by payment made it harder to locate missing transactions and amount differences at closing.",
+  "process": "I brought file reading, closing cutoffs and customer-plus-reference matching into one application.",
+  "result": "The output includes a reconciliation and a pending list with source copies for follow-up. The demonstration uses entirely fictional data.",
+  "tags": [
+    "Python",
+    "pandas",
+    "SQL",
+    "Tkinter"
+  ],
+  "repo": "proyectos/conciliador-bancario/index-en.html",
+  "image": "images/proyectos/media/conciliador-bancario/vista-previa-en.gif",
+  "imageAlt": "Walkthrough of the Windows demo application, with fictional payments and services.",
+  "media": [
+    {
+      "type": "image",
+      "src": "images/proyectos/media/conciliador-bancario/detalle-en.png",
+      "alt": "Fictional service lookup for a pending payment.",
+      "caption": "A match provides a clue; the payment remains pending review."
+    }
+  ],
+  "newTab": true,
+  "previewWide": true,
+  "imageStatic": "images/proyectos/media/conciliador-bancario/vista-previa-en.png"
+},
       { title: "Automated collection reports", description: "Downloads reports from an internal portal each morning and prepares the Excel summary without manual intervention.", problem: "Daily report downloading and consolidation requires repetitive manual tasks.", process: "Automated navigation and downloads with Selenium and consolidation in Excel.", result: "Prepares a daily summary with less manual intervention.", tags: ["Python","Selenium","Excel"], repo: GITHUB+"/reportes-recaudaciones-selenium", image: "", imageAlt: "Screenshot of the collection report in Excel", media: [] },
       { title: "Monthly reconciliation dashboard", description: "Shows differences between collected amounts and the final closing report.", problem: "Reviewing closing differences across multiple reports makes it difficult to get a quick view of the result.", process: "SQL-based data preparation to feed indicators and visualizations.", result: "Makes the reconciliation visible and helps locate differences from a dashboard.", tags: ["SQL","Power BI"], repo: GITHUB+"/dashboard-cuadre-recaudaciones", image: "", imageAlt: "Screenshot of the monthly reconciliation dashboard in Power BI", media: [] },
       { title: "Transaction anomaly detection", description: "Identifies unusual transactions to prioritize for review.", problem: "Reviewing large transaction volumes makes it difficult to detect behavior outside the usual pattern.", process: "Cleaning and analysis of transactions with Python and Pandas to identify outliers.", result: "Helps prioritize transactions that require a more detailed review.", tags: ["Python","pandas"], repo: GITHUB+"/deteccion-anomalias-transacciones", image: "", imageAlt: "Screenshot of transaction anomaly detection", media: [] },

@@ -169,7 +169,7 @@
 
     function mediaFor(p) {
       const mediaItems = [];
-      if (p.image) mediaItems.push({ src: p.image, type: 'image', alt: p.imageAlt || p.title || 'Project image' });
+      if (p.image) mediaItems.push({ src: p.image, staticSrc: p.imageStatic || '', type: 'image', alt: p.imageAlt || p.title || 'Project image' });
       (p.media || []).forEach((m) => {
         if (typeof m === 'string' && m) mediaItems.push({ src: m, type: 'image', alt: p.title || 'Project media' });
         else if (m && m.src) mediaItems.push({ src: m.src, type: m.type || 'image', alt: m.alt || p.title || 'Project media', label: m.label || '', caption: m.caption || '' });
@@ -180,7 +180,7 @@
     function buildDetail(p) {
       const detail = h('div', { class: 'project-expanded', role: 'region' });
       const mediaItems = mediaFor(p);
-      const media = h('div', { class: 'pdetail-media' });
+      const media = h('div', { class: 'pdetail-media' + (p.previewWide ? ' pdetail-media--wide' : '') });
       media.append(h('div', { class: 'pdetail-media-head' },
         h('strong', { text: P.mediaTitle || 'Visuales del proyecto' }),
         h('span', { text: P.mediaHint || 'Dashboards, capturas, GIFs y videos cortos' })
@@ -190,9 +190,22 @@
         const type = (item.type || 'image').toLowerCase();
         if (type === 'video') return h('video', { class: 'pdetail-media-video', src: item.src, controls: 'controls', preload: 'metadata', playsinline: 'playsinline', title: item.alt || '' });
         if (type === 'pdf') return h('iframe', { class: 'pdetail-media-video', src: item.src, title: item.alt || 'PDF document', loading: 'lazy' });
-        const img = h('img', { class: 'pdetail-media-main', src: item.src, alt: item.alt || '', loading: large ? 'eager' : 'lazy' });
+        let pausada = Boolean(item.staticSrc && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+        const img = h('img', { class: 'pdetail-media-main', src: pausada ? item.staticSrc : item.src, alt: item.alt || '', loading: large ? 'eager' : 'lazy' });
         img.addEventListener('click', () => openProjectMedia(mediaItems, mediaItems.indexOf(item)));
-        return img;
+        if (!item.staticSrc) return img;
+        const control = h('button', { class: 'preview-motion-control', type: 'button' });
+        function actualizarControl() {
+          control.textContent = S.lang === 'en' ? (pausada ? 'Play animation' : 'Pause animation') : (pausada ? 'Reproducir animación' : 'Pausar animación');
+          control.setAttribute('aria-pressed', String(pausada));
+        }
+        control.addEventListener('click', () => {
+          pausada = !pausada;
+          img.src = pausada ? item.staticSrc : item.src;
+          actualizarControl();
+        });
+        actualizarControl();
+        return h('div', { class: 'preview-animation' }, img, control);
       }
       if (mediaItems.length) {
         const main = mediaItems[0];
@@ -231,7 +244,7 @@
       );
       const foot = h('div', { class: 'pdetail-foot' },
         h('ul', { class: 'tags' }, ...tagList(p.tags)),
-        p.repo ? h('a', Object.assign({ class: 'btn btn-ghost', href: p.repo, text: P.linkLabel || 'Ver proyecto' }, linkAttrs(p.repo))) : null
+        p.repo ? h('a', Object.assign({ class: 'btn btn-ghost', href: p.repo, text: P.linkLabel || 'Ver proyecto' }, linkAttrs(p.repo), p.newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})) : null
       );
       detail.append(media, summary, foot);
       return detail;
@@ -305,7 +318,7 @@
     title.textContent = S.projects?.mediaTitle || 'Project visuals';
     content.replaceChildren();
     const item = items[index];
-    content.append(h('img', { class: 'project-lightbox-image', src: item.src, alt: item.alt || '' }));
+    content.append(h('img', { class: 'project-lightbox-image', src: item.staticSrc || item.src, alt: item.alt || '' }));
     modal.hidden = false;
     document.body.classList.add('modal-open');
     byId('project-lightbox-close')?.focus();

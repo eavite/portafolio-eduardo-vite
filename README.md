@@ -191,3 +191,12 @@ Si solo quieres actualizar tu información, empieza por `js/config.js` y no toqu
 - [ ] Probar la versión móvil.
 - [ ] Revisar el selector ES/EN.
 - [ ] Abrir todos los enlaces importantes antes de publicar.
+
+
+## Caso de conciliación bancaria
+
+La primera ficha abre `proyectos/conciliador-bancario/index.html`, con versión inglesa en `index-en.html`. La página presenta el problema, el aporte de Eduardo y un ejemplo interactivo con datos ficticios.
+
+El código público está en la carpeta hermana `../conciliador-bancario`. El ZIP de `descargas/conciliador-bancario.zip` permite descargar esa versión desde la web. La vista usa resultados generados por ese código; no accede a sistemas internos.
+
+Los visuales se encuentran en `images/proyectos/media/conciliador-bancario/`. Al modificar el ejemplo, regenera sus resultados, el archivo `datos-demo.js`, los visuales y el ZIP para mantenerlos coherentes.

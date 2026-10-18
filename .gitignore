@@ -3,3 +3,12 @@ Thumbs.db
 *.log
 .vscode/
 .idea/
+
+# Credenciales y archivos locales
+.env
+.env.*
+*.pem
+*.key
+*.pfx
+.venv/
+__pycache__/

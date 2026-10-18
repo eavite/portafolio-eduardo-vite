@@ -858,3 +858,10 @@ body.modal-open { overflow: hidden; }
     padding-left: 0;
   }
 }
+
+/* Vista completa del conciliador; el resto de proyectos conserva su tamaño. */
+#project-list.pfolio .pdetail-media--wide .pdetail-media-stage { min-height: 0; display: block; }
+#project-list.pfolio .pdetail-media--wide .pdetail-media-main { width: 100%; max-height: none; height: auto; display: block; }
+.preview-animation { width: 100%; }
+.preview-motion-control { display: block; margin: 8px 12px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 4px; background: var(--panel); color: var(--muted); font: inherit; font-size: .76rem; cursor: pointer; }
+.preview-motion-control:hover { color: var(--text); }
