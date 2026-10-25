@@ -350,6 +350,7 @@ Object.assign(SITE_EN, {
       "I currently work at Pycca S.A., a retail company with its own credit system. We reconcile daily information from banks and internal systems across 116 stores nationwide. Using Python, SQL and Selenium, I have automated manual tasks such as bank reconciliations, report downloads and data consolidation.",
       "I am building my career toward Data Analysis and Business Intelligence. The projects on this page are based on work and learning problems, using anonymized or illustrative data. I am looking to keep developing in a role where I can turn data into useful information for decision-making."
     ],
+    avatar: "images/perfil/avatar.jpg",
     avatarAlt: "Photo of Eduardo Vite León",
     experience: { eyebrow: "DATA EXPERIENCE", title: "PYCCA S.A.", meta: "Retail & Credit", points: [
       "Reconciliation of banking information and internal systems.",

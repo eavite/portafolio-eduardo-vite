@@ -889,3 +889,9 @@ body.modal-open { overflow: hidden; }
 .email-actions .text-btn { color: var(--text); font-size: .95rem; }
 .email-actions .text-btn:hover { color: var(--ok); }
 .email-status { color: var(--ok); font-size: .85rem; }
+
+.cert-zoom-tools { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 8px 12px; flex-shrink: 0; border-bottom: 1px solid var(--line); }
+#cert-zoom-value { min-width: 48px; text-align: center; font-size: .85rem; }
+.cert-zoom-tools button:disabled { opacity: .4; cursor: default; }
+.cert-lightbox-content.is-zoomed { display: block; }
+.cert-lightbox-content.is-zoomed .cert-lightbox-image { max-width: none; max-height: none; height: auto; margin: 0 auto; }

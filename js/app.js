@@ -379,6 +379,25 @@
   let activeCertItem = null;
   let activeCertPage = 0;
 
+  let certZoom = 1;
+  function setCertificateZoom(value) {
+    const content = byId('cert-lightbox-content');
+    const img = content.querySelector('img');
+    certZoom = Math.max(1, Math.min(4, value));
+    content.classList.toggle('is-zoomed', certZoom > 1);
+    if (img) {
+      const css = getComputedStyle(content);
+      const width = content.clientWidth - parseFloat(css.paddingLeft) - parseFloat(css.paddingRight);
+      const height = content.clientHeight - parseFloat(css.paddingTop) - parseFloat(css.paddingBottom);
+      const fittedWidth = Math.min(width, height * img.naturalWidth / img.naturalHeight);
+      img.style.width = certZoom > 1 ? `${fittedWidth * certZoom}px` : '';
+    }
+    byId('cert-zoom-value').textContent = `${Math.round(certZoom * 100)}%`;
+    byId('cert-zoom-out').disabled = certZoom === 1;
+    byId('cert-zoom-in').disabled = certZoom === 4;
+    if (certZoom === 1) { content.scrollTop = 0; content.scrollLeft = 0; }
+  }
+
   function certificationPages(item) {
     return Array.isArray(item.images) && item.images.length ? item.images : [item.file];
   }
@@ -390,6 +409,10 @@
     const english = S.lang === 'en';
     const pageLabel = english ? `Page ${activeCertPage + 1} of ${pages.length}` : `Página ${activeCertPage + 1} de ${pages.length}`;
     content.replaceChildren();
+    setCertificateZoom(1);
+    byId('cert-zoom-in').setAttribute('aria-label', english ? 'Zoom in' : 'Aumentar zoom');
+    byId('cert-zoom-out').setAttribute('aria-label', english ? 'Zoom out' : 'Reducir zoom');
+    byId('cert-zoom-fit').textContent = english ? 'Fit' : 'Ajustar';
     const isPdf = /\.pdf(?:$|[?#])/i.test(file || '');
     if (isPdf) {
       content.append(h('iframe', { class: 'cert-lightbox-pdf', src: file, title: activeCertItem.title || 'PDF' }));
@@ -439,6 +462,12 @@
   }
 
   function setupCertificationLightbox() {
+    byId('cert-zoom-in').addEventListener('click', () => setCertificateZoom(certZoom + .5));
+    byId('cert-zoom-out').addEventListener('click', () => setCertificateZoom(certZoom - .5));
+    byId('cert-zoom-fit').addEventListener('click', () => setCertificateZoom(1));
+    window.addEventListener('resize', () => {
+      if (!byId('cert-lightbox').hidden) setCertificateZoom(certZoom);
+    });
     byId('cert-lightbox-close')?.addEventListener('click', closeCertification);
     byId('cert-lightbox-prev')?.addEventListener('click', () => changeCertificationPage(-1));
     byId('cert-lightbox-next')?.addEventListener('click', () => changeCertificationPage(1));
@@ -454,7 +483,7 @@
         changeCertificationPage(e.key === 'ArrowRight' ? 1 : -1);
       }
       if (e.key === 'Tab') {
-        const buttons = [...modal.querySelectorAll('button')].filter(button => button.getClientRects().length);
+        const buttons = [...modal.querySelectorAll('button')].filter(button => !button.disabled && button.getClientRects().length);
         const first = buttons[0], last = buttons[buttons.length - 1];
         if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
         else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
