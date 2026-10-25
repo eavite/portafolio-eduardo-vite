@@ -370,7 +370,9 @@ a { color: inherit; }
 #tecnologias .section-intro, #resultados .section-intro { margin-bottom: 28px; }
 
 /* Sobre mí */
-.section--about { padding-top: 72px; padding-bottom: 72px; }
+#sobre-mi { padding-block: 60px; }
+#about-title { font-size: clamp(1.7rem, 3vw, 2.15rem); }
+#about-text { font-size: 1.125rem; line-height: 1.6; }
 .about-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 48px; align-items: center; }
 .about-grid > * { min-width: 0; }
 .prose p { margin: 0 0 1.1em; max-width: 62ch; }
@@ -472,7 +474,7 @@ a { color: inherit; }
   .hero { padding: 56px 0 56px; }
   .hero-grid { grid-template-columns: 1fr; gap: 40px; }
   .deck-wrap { justify-self: stretch; max-width: none; }
-  .section--about { padding-top: 56px; padding-bottom: 56px; }
+  #sobre-mi { padding-block: 48px; }
   .about-grid { grid-template-columns: 1fr; gap: 36px; align-items: start; }
   .contact-grid { grid-template-columns: 1fr; gap: 36px; }
   .technology-grid { grid-template-columns: 1fr; }
@@ -870,7 +872,7 @@ body.modal-open { overflow: hidden; }
 #project-list.pfolio .pdetail-media--wide .pdetail-media-stage { min-height: 0; display: block; }
 #project-list.pfolio .pdetail-media--wide .pdetail-media-main { width: 100%; max-height: none; height: auto; display: block; }
 .preview-animation { width: 100%; }
-.preview-motion-control { display: block; margin: 8px 12px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 4px; background: var(--panel); color: var(--muted); font: inherit; font-size: .76rem; cursor: pointer; }
+.preview-motion-control { display: block; margin: 0; padding: 5px 8px; border: 1px solid var(--line); border-radius: 4px; background: var(--panel); color: var(--muted); font: inherit; font-size: .76rem; cursor: pointer; }
 .preview-motion-control:hover { color: var(--text); }
 
 /* Navegación entre las páginas de un mismo certificado. */
@@ -878,3 +880,12 @@ body.modal-open { overflow: hidden; }
 .cert-lightbox-pages[hidden] { display: none; }
 .cert-page-arrow { width: 44px; height: 44px; font-size: 1.35rem; }
 #cert-lightbox-counter { min-width: 70px; text-align: center; color: var(--text); font: 500 .85rem var(--font-mono); }
+
+/* Acciones junto a la vista previa y contacto sin dirección visible. */
+.preview-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.preview-actions:empty { display: none; }
+.preview-project-link { margin-left: auto; padding: 8px 12px; font-size: .86rem; white-space: nowrap; }
+.email-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 18px; }
+.email-actions .text-btn { color: var(--text); font-size: .95rem; }
+.email-actions .text-btn:hover { color: var(--ok); }
+.email-status { color: var(--ok); font-size: .85rem; }

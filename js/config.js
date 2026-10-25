@@ -14,7 +14,8 @@
 /* ---------- 1. Datos que se repiten en varios lugares (cámbialos una sola vez) ---------- */
 
 const USUARIO_GITHUB = "eavite";                 // <- tu usuario de GitHub
-const CORREO         = "eduardovite1111@gmail.com";      // <- tu correo profesional
+// Camuflaje básico; se decodifica únicamente al usar los botones de contacto.
+const CORREO_CODIFICADO = "ZWR1YXJkb3ZpdGUxMTExQGdtYWlsLmNvbQ==";
 const LINKEDIN       = "https://www.linkedin.com/in/eduardo-vite/";
 const GITHUB         = "https://github.com/" + USUARIO_GITHUB;
 
@@ -257,7 +258,7 @@ const SITE = {
     title: "Contacto",
     text: "¿Buscas un perfil de análisis de datos, conciliación financiera o crédito? Estoy disponible para nuevas oportunidades laborales.",
     items: [
-      { label: "Correo",    text: CORREO,                 href: "mailto:" + CORREO },
+      { label: "Correo", emailEncoded: CORREO_CODIFICADO },
       { label: "LinkedIn",  text: "Eduardo Vite León",    href: LINKEDIN },
       { label: "GitHub",    text: "github.com/" + USUARIO_GITHUB, href: GITHUB },
       { label: "País", text: "Ecuador",              href: "" },
@@ -413,7 +414,7 @@ Object.assign(SITE_EN, {
     title: "Contact",
     text: "Looking for a data, financial reconciliation or credit analyst? I am open to new opportunities.",
     items: [
-      { label: "Email", text: CORREO, href: "mailto:"+CORREO },
+      { label: "Email", emailEncoded: CORREO_CODIFICADO },
       { label: "LinkedIn", text: "Eduardo Vite León", href: LINKEDIN },
       { label: "GitHub", text: "github.com/"+USUARIO_GITHUB, href: GITHUB },
       { label: "Country", text: "Ecuador", href: "" },

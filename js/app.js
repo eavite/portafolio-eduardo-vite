@@ -182,7 +182,11 @@
         h('span', { text: P.mediaHint || 'Dashboards, capturas, GIFs y videos cortos' })
       ));
       const mediaStage = h('div', { class: 'pdetail-media-stage' });
+      const mediaActions = h('div', { class: 'preview-actions' });
+      const projectLink = p.repo ? h('a', Object.assign({ class: 'btn btn-ghost preview-project-link', href: p.repo, text: P.linkLabel || 'Ver proyecto' }, linkAttrs(p.repo), p.newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})) : null;
+      if (projectLink) mediaActions.append(projectLink);
       function mediaNode(item, large) {
+        mediaActions.querySelector('.preview-motion-control')?.remove();
         const type = (item.type || 'image').toLowerCase();
         if (type === 'video') return h('video', { class: 'pdetail-media-video', src: item.src, controls: 'controls', preload: 'metadata', playsinline: 'playsinline', title: item.alt || '' });
         if (type === 'pdf') return h('iframe', { class: 'pdetail-media-video', src: item.src, title: item.alt || 'PDF document', loading: 'lazy' });
@@ -201,13 +205,14 @@
           actualizarControl();
         });
         actualizarControl();
-        return h('div', { class: 'preview-animation' }, img, control);
+        mediaActions.prepend(control);
+        return h('div', { class: 'preview-animation' }, img);
       }
       if (mediaItems.length) {
         const main = mediaItems[0];
         mediaStage.append(mediaNode(main, true));
         if (main.caption || main.label) mediaStage.append(h('p', { class: 'pdetail-media-caption', text: main.caption || main.label }));
-        media.append(mediaStage);
+        media.append(mediaStage, mediaActions);
         if (mediaItems.length > 1) {
           const thumbs = h('div', { class: 'pdetail-media-thumbs' });
           mediaItems.forEach((m, i) => {
@@ -230,7 +235,7 @@
           h('strong', { text: P.mediaEmptyTitle || 'Visuales próximamente' }),
           h('span', { text: P.mediaEmptyText || 'Este espacio está preparado para capturas de dashboards, gráficos, GIFs o videos cortos relacionados con el proyecto.' })
         ));
-        media.append(mediaStage);
+        media.append(mediaStage, mediaActions);
       }
 
       const summary = h('div', { class: 'project-expanded-summary' },
@@ -239,8 +244,7 @@
         p.result ? block('pdetail-result', L.result || 'Resultado', p.result) : null
       );
       const foot = h('div', { class: 'pdetail-foot' },
-        h('ul', { class: 'tags' }, ...tagList(p.tags)),
-        p.repo ? h('a', Object.assign({ class: 'btn btn-ghost', href: p.repo, text: P.linkLabel || 'Ver proyecto' }, linkAttrs(p.repo), p.newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})) : null
+        h('ul', { class: 'tags' }, ...tagList(p.tags))
       );
       detail.append(media, summary, foot);
       return detail;
@@ -485,13 +489,33 @@
     return null;
   }
 
+  function emailActions(encoded) {
+    const english = S.lang === 'en';
+    const actions = h('div', { class: 'email-actions' });
+    const copy = h('button', { class: 'text-btn', type: 'button', text: english ? 'Copy email' : 'Copiar correo' });
+    const status = h('span', { class: 'email-status', role: 'status', 'aria-live': 'polite' });
+    copy.addEventListener('click', async () => {
+      const address = atob(encoded);
+      try {
+        await navigator.clipboard.writeText(address);
+        status.textContent = english ? 'Copied' : 'Copiado';
+      } catch {
+        // Permite copiar también si el navegador bloquea el portapapeles.
+        window.prompt(english ? 'Copy this email address:' : 'Copia esta dirección de correo:', address);
+        status.textContent = '';
+      }
+    });
+    actions.append(copy, status);
+    return actions;
+  }
+
   function renderContact() {
     const C = S.contact || {};
     byId('contact-title').textContent = C.title || '';
     byId('contact-text').textContent = C.text || '';
     const dl = byId('contact-list');
     (C.items || []).forEach((it) => {
-      const value = it.href
+      const value = it.emailEncoded ? emailActions(it.emailEncoded) : it.href
         ? h('a', Object.assign({ href: it.href, text: it.text }, linkAttrs(it.href)))
         : document.createTextNode(it.text);
       const ic = icon(iconForLabel(it.label));
