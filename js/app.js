@@ -140,15 +140,11 @@
 
   const PROJECT_ICONS = {
     conciliador: 'M3 10l9-6 9 6M5 10v8M9 10v8M15 10v8M19 10v8M3 21h18',
-    selenium: 'M12 3v12m0 0-4-4m4 4 4-4M4 20h16',
-    dashboard: 'M4 20V10M10 20V4M16 20v-7M22 20H2',
-    anomal: 'M12 3 22 21H2L12 3zM12 10v5M12 18v.01',
-    warehouse: 'M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5',
-    correos: 'M4 5h16v14H4zM4 7l8 6 8-6'
+    general: 'M4 20V10M10 20V4M16 20v-7M22 20H2'
   };
   function projectIcon(p) {
-    const key = p.icon || Object.keys(PROJECT_ICONS).find((k) => (p.repo || '').includes(k)) || 'dashboard';
-    return svgEl('svg', { viewBox: '0 0 24 24', width: 22, height: 22, fill: 'none', stroke: 'currentColor', 'stroke-width': 1.9, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'aria-hidden': 'true', focusable: 'false' }, svgEl('path', { d: PROJECT_ICONS[key] || PROJECT_ICONS.dashboard }));
+    const key = p.icon || Object.keys(PROJECT_ICONS).find((k) => (p.repo || '').includes(k)) || 'general';
+    return svgEl('svg', { viewBox: '0 0 24 24', width: 22, height: 22, fill: 'none', stroke: 'currentColor', 'stroke-width': 1.9, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'aria-hidden': 'true', focusable: 'false' }, svgEl('path', { d: PROJECT_ICONS[key] || PROJECT_ICONS.general }));
   }
 
   function renderProjects() {

@@ -1,202 +1,29 @@
-# Portafolio de Eduardo Vite León
+# Eduardo Vite León · Portafolio
 
-Portafolio web estático de **Eduardo Vite León — Data Analyst & BI**.
+En este portafolio comparto cómo aplico el análisis de datos a problemas de recaudación, crédito y conciliación bancaria. Me interesa transformar reportes dispersos en información que permita entender qué ocurrió, encontrar diferencias y dar seguimiento a lo que necesita revisión.
 
-La web está construida con **HTML, CSS y JavaScript puro**. No necesita Node.js, npm, frameworks ni compilación para funcionar.
+## Sobre mí
 
-## 1. Cómo entender el proyecto
+Mi experiencia como Auxiliar de Operaciones y Conciliaciones Bancarias me ha acercado al trabajo diario con pagos, reportes y cierres. Desde ahí nació mi interés por automatizar tareas repetitivas y dedicar más atención a revisar e interpretar los datos.
 
-Si es la primera vez que abres la carpeta, sigue este orden:
+Busco seguir creciendo en análisis de datos, finanzas y BI. Me gusta partir de una necesidad concreta, entender las reglas del proceso y construir una solución que pueda comprobarse con sus resultados.
 
-1. `index.html` → estructura general de la página.
-2. `js/config.js` → contenido que aparece en pantalla. **Este es el archivo principal para editar.**
-3. `css/style.css` → diseño visual.
-4. `js/app.js` → funcionamiento de la web.
-5. `js/effects.js` → animaciones y efectos visuales.
+## El proyecto que presento
 
-Dentro de cada carpeta también hay un `LEEME.txt` con instrucciones específicas.
+Por ahora presento un **conciliador bancario multibanco**. Con este proyecto abordo una tarea habitual: comparar los pagos registrados en un sistema con los reportados por el banco y localizar los que no coinciden.
 
-## 2. Estructura de carpetas
+En la demostración muestro cómo se separan los pagos conciliados, las diferencias de importe y los registros que aparecen en una sola fuente. También incluyo la revisión de movimientos posteriores al corte y una consulta local de servicios relacionados con pagos pendientes.
 
-```text
-portafolio-eduardo-vite/
-├── index.html
-├── README.md
-├── .gitignore
-│
-├── css/
-│   ├── style.css
-│   └── LEEME.txt
-│
-├── js/
-│   ├── config.js
-│   ├── app.js
-│   ├── effects.js
-│   └── LEEME.txt
-│
-├── images/
-│   ├── LEEME.txt
-│   ├── perfil/
-│   │   ├── avatar.jpg              ← colocar foto aquí
-│   │   └── LEEME.txt
-│   ├── proyectos/
-│   │   ├── LEEME.txt
-│   │   └── ...capturas...
-│   └── certificaciones/
-│       ├── LEEME.txt
-│       ├── certificacion-01.svg    ← marcador, reemplazar
-│       ├── certificacion-02.svg    ← marcador, reemplazar
-│       ├── certificacion-03.svg    ← marcador, reemplazar
-│       └── certificacion-04.svg    ← marcador, reemplazar
-│
-└── cv/
-    ├── CV-Eduardo-Vite.pdf         ← colocar CV aquí
-    └── LEEME.txt
-```
+Comparto una versión pública con datos ficticios, un recorrido visual y el código descargable. Los resultados del ejemplo se pueden reproducir; no representan cifras de una empresa ni ahorros medidos.
 
-## 3. Qué debes editar normalmente
+## Herramientas
 
-### Textos, enlaces y contenido
-Edita solamente:
+En el conciliador utilizo **Python y pandas** para preparar y comparar los reportes, **SQL con SQLite** para consultar los datos de ejemplo y **Tkinter** para la vista de escritorio. Los resultados se guardan en archivos CSV que pueden revisarse en Excel.
 
-`js/config.js`
+Presento el portafolio en español e inglés, con una web de HTML, CSS y JavaScript preparada para GitHub Pages.
 
-Ahí están el nombre, correo, LinkedIn, GitHub, textos de la portada, experiencia, métricas, proyectos, certificaciones y versiones en español/inglés.
+## Lo que busco mostrar
 
-### Foto
-Coloca tu foto en:
+Quiero mostrar mi forma de abordar un problema: revisar el origen de los datos, definir qué debe compararse y conservar el detalle necesario para explicar una diferencia. Mi objetivo es que cada proyecto ayude a entender una situación y sirva como punto de partida para un análisis más claro.
 
-`images/perfil/avatar.jpg`
-
-### CV
-Coloca tu CV en:
-
-`cv/CV-Eduardo-Vite.pdf`
-
-### Certificaciones y estudios
-Guarda las evidencias en:
-
-`images/certificaciones/`
-
-Los cuatro SVG iniciales son marcadores. Reemplázalos por tus documentos reales cuando los tengas. El visor de la web permite abrir las evidencias en pantalla completa.
-
-### Capturas de proyectos
-Guárdalas en:
-
-`images/proyectos/`
-
-Después actualiza la propiedad `image` del proyecto correspondiente en `js/config.js`.
-
-## 4. Cómo probar la web
-
-No necesitas instalar nada.
-
-Abre `index.html` en el navegador.
-
-Para una experiencia más parecida a un servidor web, también puedes abrir la carpeta con VS Code y usar una extensión como Live Server, pero no es obligatorio.
-
-## 5. Cómo cambiar de español a inglés
-
-El selector de idioma está en la web.
-
-Los dos idiomas están definidos dentro de `js/config.js`. Primero puedes completar y corregir la versión en español y después adaptar la versión en inglés manteniendo la misma estructura.
-
-## 6. Qué información es real y qué información es demostrativa
-
-La web diferencia explícitamente entre experiencia real y demostraciones.
-
-Experiencia real documentada en el contenido actual:
-- PYCCA S.A.
-- 116 almacenes a nivel nacional.
-- Aproximadamente 20.000 transacciones diarias.
-- Conciliación de información bancaria y sistemas internos.
-- Extracción, transformación y consolidación de datos.
-- Automatización de tareas y reportes.
-- Proceso automatizado de aproximadamente 4 horas a aproximadamente 10 minutos.
-
-Los datos utilizados en las demostraciones visuales del carrusel se identifican como **DEMO** cuando son ficticios o ilustrativos.
-
-No conviertas automáticamente estos datos en porcentajes, dinero ahorrado, ROI u otros indicadores que no hayan sido calculados y aprobados.
-
-## 7. Cómo agregar un proyecto
-
-En `js/config.js`, busca:
-
-`projects: { items: [...] }`
-
-Cada objeto representa un proyecto. Puedes completar:
-
-- `title`
-- `description`
-- `problem`
-- `process`
-- `result`
-- `tags`
-- `repo`
-- `image`
-- `imageAlt`
-
-Si todavía no tienes evidencia visual o un repositorio listo, puedes dejar `image` vacío. No inventes enlaces ni resultados.
-
-## 8. Cómo agregar una certificación
-
-En `js/config.js`, busca:
-
-`certifications: { items: [...] }`
-
-Cambia el título y la ruta del archivo.
-
-Para una imagen:
-
-```js
-file: "images/certificaciones/mi-certificado.jpg",
-type: "image"
-```
-
-Para un PDF:
-
-```js
-file: "images/certificaciones/mi-certificado.pdf",
-type: "pdf"
-```
-
-## 9. Publicar en GitHub Pages
-
-1. Crea un repositorio público en GitHub.
-2. Sube el contenido de esta carpeta.
-3. En GitHub abre `Settings → Pages`.
-4. Selecciona `Deploy from a branch`.
-5. Elige la rama `main` y la carpeta `/ (root)`.
-6. Guarda y espera a que GitHub publique la página.
-
-## 10. Regla para mantener el proyecto limpio
-
-- **Contenido:** `js/config.js`
-- **Diseño:** `css/style.css`
-- **Funcionamiento:** `js/app.js`
-- **Animaciones:** `js/effects.js`
-- **Imágenes:** `images/`
-- **CV:** `cv/`
-
-Si solo quieres actualizar tu información, empieza por `js/config.js` y no toques el resto.
-
-## 11. Antes de publicar
-
-- [ ] Colocar foto de perfil.
-- [ ] Colocar CV.
-- [ ] Revisar correo, LinkedIn y GitHub.
-- [ ] Reemplazar los cuatro marcadores de certificaciones cuando tengas los documentos.
-- [ ] Agregar capturas reales de proyectos cuando estén listas.
-- [ ] Revisar que ninguna imagen contenga información confidencial.
-- [ ] Probar la versión móvil.
-- [ ] Revisar el selector ES/EN.
-- [ ] Abrir todos los enlaces importantes antes de publicar.
-
-
-## Caso de conciliación bancaria
-
-La primera ficha abre `proyectos/conciliador-bancario/index.html`, con versión inglesa en `index-en.html`. La página presenta el problema, el aporte de Eduardo y un ejemplo interactivo con datos ficticios.
-
-El código público está en la carpeta hermana `../conciliador-bancario`. El ZIP de `descargas/conciliador-bancario.zip` permite descargar esa versión desde la web. La vista usa resultados generados por ese código; no accede a sistemas internos.
-
-Los visuales se encuentran en `images/proyectos/media/conciliador-bancario/`. Al modificar el ejemplo, regenera sus resultados, el archivo `datos-demo.js`, los visuales y el ZIP para mantenerlos coherentes.
+[GitHub](https://github.com/eavite) · [LinkedIn](https://www.linkedin.com/in/eduardo-vite/)

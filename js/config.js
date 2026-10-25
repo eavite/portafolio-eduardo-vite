@@ -195,8 +195,8 @@ const SITE = {
     mediaEmptyText: "Este espacio está preparado para capturas de dashboards, gráficos, GIFs o videos cortos relacionados con el proyecto.",
     linkLabel: "Ver proyecto",
     labels: { problem: "Problema", process: "Proceso", result: "Resultado" },
-    moreLabel: "Ver todos en GitHub",
-    moreHref: GITHUB,
+    moreLabel: "",
+    moreHref: "",
     items: [
       {
   "title": "Conciliador bancario multibanco",
@@ -221,65 +221,10 @@ const SITE = {
       "caption": "Una coincidencia aporta una pista; el pago sigue pendiente de revisión."
     }
   ],
-  "newTab": true,
+  "newTab": false,
   "previewWide": true,
   "imageStatic": "images/proyectos/media/conciliador-bancario/vista-previa.png"
-},
-      {
-        title: "Reportes de recaudaciones automáticos",
-        description: "Descarga cada mañana los reportes de un portal interno y arma el resumen en Excel sin intervención.",
-        problem: "La descarga y consolidación diaria de reportes requiere tareas repetitivas y manuales.",
-        process: "Automatización de la navegación y descarga con Selenium y consolidación de la información en Excel.",
-        result: "Deja preparado un resumen diario con menos intervención manual.",
-        tags: ["Python", "Selenium", "Excel"],
-        repo: GITHUB + "/reportes-recaudaciones-selenium",
-        image: "",
-        imageAlt: "Captura del resumen de recaudaciones en Excel"
-      },
-      {
-        title: "Dashboard del cuadre mensual",
-        description: "Muestra las diferencias entre lo recaudado y el reporte final de cierre.",
-        problem: "Revisar diferencias de cierre en distintos reportes dificulta tener una visión rápida del resultado.",
-        process: "Consulta y preparación de datos en SQL para alimentar indicadores y visualizaciones.",
-        result: "Permite visualizar el cuadre y localizar diferencias desde un dashboard.",
-        tags: ["SQL", "Power BI"],
-        repo: GITHUB + "/dashboard-cuadre-recaudaciones",
-        image: "",
-        imageAlt: "Captura del dashboard del cuadre mensual en Power BI"
-      },
-      {
-        title: "Detección de anomalías transaccionales",
-        description: "Identifica transacciones atípicas para priorizar su revisión.",
-        problem: "Revisar grandes volúmenes de transacciones hace difícil detectar comportamientos fuera de lo habitual.",
-        process: "Limpieza y análisis de transacciones con Python y Pandas para identificar valores atípicos.",
-        result: "Ayuda a priorizar transacciones que requieren una revisión más detallada.",
-        tags: ["Python", "pandas"],
-        repo: GITHUB + "/deteccion-anomalias-transacciones",
-        image: "",
-        imageAlt: "Captura de la detección de anomalías transaccionales"
-      },
-      {
-        title: "Warehouse y KPIs con historial (SCD2)",
-        description: "Modelo dimensional que conserva el historial de cambios y alimenta los indicadores.",
-        problem: "Los cambios históricos pueden perderse cuando solo se conserva el estado actual de los datos.",
-        process: "Diseño de un modelo dimensional con historial de cambios mediante SCD2.",
-        result: "Conserva la evolución de los datos y deja una base preparada para indicadores históricos.",
-        tags: ["SQL"],
-        repo: GITHUB + "/warehouse-kpis-scd2",
-        image: "",
-        imageAlt: "Diagrama del modelo dimensional con historial SCD2"
-      },
-      {
-        title: "Clasificador de correos",
-        description: "Clasifica correos por tipo de solicitud para ordenar la bandeja.",
-        problem: "Clasificar solicitudes manualmente consume tiempo y dificulta priorizar la bandeja.",
-        process: "Procesamiento y clasificación de correos mediante Python.",
-        result: "Organiza las solicitudes por tipo para facilitar su revisión y gestión.",
-        tags: ["Python"],
-        repo: GITHUB + "/clasificador-correos",
-        image: "",
-        imageAlt: "Captura del clasificador de correos"
-      }
+}
     ]
   },
 
@@ -423,7 +368,7 @@ Object.assign(SITE_EN, {
     ]
   },
   projects: {
-    title: "Projects", intro: "", mediaTitle: "Project visuals", mediaHint: "Dashboards, screenshots and GIFs", mediaEmptyTitle: "Visuals coming soon", mediaEmptyText: "This space is ready for dashboard screenshots, charts, GIFs or short videos related to the project.", linkLabel: "View project", labels: { problem: "Problem", process: "Process", result: "Result" }, moreLabel: "View all on GitHub", moreHref: GITHUB,
+    title: "Projects", intro: "", mediaTitle: "Project visuals", mediaHint: "Dashboards, screenshots and GIFs", mediaEmptyTitle: "Visuals coming soon", mediaEmptyText: "This space is ready for dashboard screenshots, charts, GIFs or short videos related to the project.", linkLabel: "View project", labels: { problem: "Problem", process: "Process", result: "Result" }, moreLabel: "", moreHref: "",
     items: [
       {
   "title": "Multi-bank reconciliation tool",
@@ -448,15 +393,10 @@ Object.assign(SITE_EN, {
       "caption": "A match provides a clue; the payment remains pending review."
     }
   ],
-  "newTab": true,
+  "newTab": false,
   "previewWide": true,
   "imageStatic": "images/proyectos/media/conciliador-bancario/vista-previa-en.png"
-},
-      { title: "Automated collection reports", description: "Downloads reports from an internal portal each morning and prepares the Excel summary without manual intervention.", problem: "Daily report downloading and consolidation requires repetitive manual tasks.", process: "Automated navigation and downloads with Selenium and consolidation in Excel.", result: "Prepares a daily summary with less manual intervention.", tags: ["Python","Selenium","Excel"], repo: GITHUB+"/reportes-recaudaciones-selenium", image: "", imageAlt: "Screenshot of the collection report in Excel", media: [] },
-      { title: "Monthly reconciliation dashboard", description: "Shows differences between collected amounts and the final closing report.", problem: "Reviewing closing differences across multiple reports makes it difficult to get a quick view of the result.", process: "SQL-based data preparation to feed indicators and visualizations.", result: "Makes the reconciliation visible and helps locate differences from a dashboard.", tags: ["SQL","Power BI"], repo: GITHUB+"/dashboard-cuadre-recaudaciones", image: "", imageAlt: "Screenshot of the monthly reconciliation dashboard in Power BI", media: [] },
-      { title: "Transaction anomaly detection", description: "Identifies unusual transactions to prioritize for review.", problem: "Reviewing large transaction volumes makes it difficult to detect behavior outside the usual pattern.", process: "Cleaning and analysis of transactions with Python and Pandas to identify outliers.", result: "Helps prioritize transactions that require a more detailed review.", tags: ["Python","pandas"], repo: GITHUB+"/deteccion-anomalias-transacciones", image: "", imageAlt: "Screenshot of transaction anomaly detection", media: [] },
-      { title: "Data warehouse and historical KPIs (SCD2)", description: "Dimensional model that preserves change history and feeds indicators.", problem: "Historical changes can be lost when only the current state of the data is kept.", process: "Design of a dimensional model with change history using SCD2.", result: "Preserves data evolution and provides a base for historical indicators.", tags: ["SQL"], repo: GITHUB+"/warehouse-kpis-scd2", image: "", imageAlt: "Diagram of the dimensional model with SCD2 history", media: [] },
-      { title: "Email classifier", description: "Classifies emails by request type to organize the inbox.", problem: "Manually classifying requests takes time and makes inbox prioritization harder.", process: "Email processing and classification with Python.", result: "Organizes requests by type to facilitate review and management.", tags: ["Python"], repo: GITHUB+"/clasificador-correos", image: "", imageAlt: "Screenshot of the email classifier", media: [] }
+}
     ]
   },
   certifications: {
