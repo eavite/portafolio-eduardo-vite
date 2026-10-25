@@ -372,23 +372,54 @@
   }
 
   let activeCertIndex = -1;
+  let activeCertItem = null;
+  let activeCertPage = 0;
+
+  function certificationPages(item) {
+    return Array.isArray(item.images) && item.images.length ? item.images : [item.file];
+  }
+
+  function renderCertificationPage() {
+    const content = byId('cert-lightbox-content');
+    const pages = certificationPages(activeCertItem);
+    const file = pages[activeCertPage];
+    const english = S.lang === 'en';
+    const pageLabel = english ? `Page ${activeCertPage + 1} of ${pages.length}` : `Página ${activeCertPage + 1} de ${pages.length}`;
+    content.replaceChildren();
+    const isPdf = /\.pdf(?:$|[?#])/i.test(file || '');
+    if (isPdf) {
+      content.append(h('iframe', { class: 'cert-lightbox-pdf', src: file, title: activeCertItem.title || 'PDF' }));
+    } else {
+      content.append(h('img', { class: 'cert-lightbox-image', src: file, alt: `${activeCertItem.title || ''} — ${pageLabel}` }));
+    }
+    content.scrollTop = 0;
+    byId('cert-lightbox-pages').hidden = pages.length < 2;
+    byId('cert-lightbox-pages').setAttribute('aria-label', english ? 'Certificate pages' : 'Páginas del certificado');
+    byId('cert-lightbox-prev').setAttribute('aria-label', english ? 'Previous page' : 'Página anterior');
+    byId('cert-lightbox-next').setAttribute('aria-label', english ? 'Next page' : 'Página siguiente');
+    byId('cert-lightbox-counter').textContent = english ? `${activeCertPage + 1} of ${pages.length}` : `${activeCertPage + 1} de ${pages.length}`;
+  }
+
+  function changeCertificationPage(direction) {
+    if (!activeCertItem) return;
+    const pages = certificationPages(activeCertItem);
+    if (pages.length < 2) return;
+    activeCertPage = (activeCertPage + direction + pages.length) % pages.length;
+    renderCertificationPage();
+  }
+
   function openCertification(item, index) {
     const modal = byId('cert-lightbox');
-    const content = byId('cert-lightbox-content');
-    const title = byId('cert-lightbox-title');
-    if (!modal || !content) return;
+    if (!modal) return;
     activeCertIndex = index;
-    title.textContent = item.title || '';
-    content.replaceChildren();
-    const isPdf = (item.type === 'pdf') || /\.pdf(?:$|[?#])/i.test(item.file || '');
-    if (isPdf) {
-      content.append(h('iframe', { class: 'cert-lightbox-pdf', src: item.file, title: item.title || 'PDF' }));
-    } else {
-      content.append(h('img', { class: 'cert-lightbox-image', src: item.file, alt: item.title || '' }));
-    }
+    activeCertItem = item;
+    activeCertPage = 0;
+    byId('cert-lightbox-title').textContent = item.title || '';
+    renderCertificationPage();
     modal.hidden = false;
     document.body.classList.add('modal-open');
-    byId('cert-lightbox-close')?.focus();
+    byId('cert-lightbox-close').setAttribute('aria-label', S.lang === 'en' ? 'Close' : 'Cerrar');
+    byId('cert-lightbox-close').focus();
   }
 
   function closeCertification() {
@@ -397,11 +428,16 @@
     modal.hidden = true;
     byId('cert-lightbox-content')?.replaceChildren();
     document.body.classList.remove('modal-open');
+    document.querySelectorAll('.certification-preview')[activeCertIndex]?.focus({ preventScroll: true });
     activeCertIndex = -1;
+    activeCertItem = null;
+    activeCertPage = 0;
   }
 
   function setupCertificationLightbox() {
     byId('cert-lightbox-close')?.addEventListener('click', closeCertification);
+    byId('cert-lightbox-prev')?.addEventListener('click', () => changeCertificationPage(-1));
+    byId('cert-lightbox-next')?.addEventListener('click', () => changeCertificationPage(1));
     byId('cert-lightbox')?.addEventListener('click', (e) => {
       if (e.target.matches('[data-cert-close]')) closeCertification();
     });
@@ -409,6 +445,16 @@
       const modal = byId('cert-lightbox');
       if (!modal || modal.hidden) return;
       if (e.key === 'Escape') closeCertification();
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        changeCertificationPage(e.key === 'ArrowRight' ? 1 : -1);
+      }
+      if (e.key === 'Tab') {
+        const buttons = [...modal.querySelectorAll('button')].filter(button => button.getClientRects().length);
+        const first = buttons[0], last = buttons[buttons.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
     });
   }
 

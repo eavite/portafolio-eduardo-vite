@@ -182,6 +182,11 @@
 				<button class="icon-btn cert-lightbox-close" id="cert-lightbox-close" type="button" aria-label="Cerrar">×</button>
 			</div>
 			<div class="cert-lightbox-content" id="cert-lightbox-content"></div>
+            <nav class="cert-lightbox-pages" id="cert-lightbox-pages" aria-label="Páginas del certificado" hidden>
+                <button class="icon-btn cert-page-arrow" id="cert-lightbox-prev" type="button" aria-label="Página anterior" aria-controls="cert-lightbox-content">←</button>
+                <span id="cert-lightbox-counter" role="status" aria-live="polite" aria-atomic="true"></span>
+                <button class="icon-btn cert-page-arrow" id="cert-lightbox-next" type="button" aria-label="Página siguiente" aria-controls="cert-lightbox-content">→</button>
+            </nav>
 		</div>
 	</div>
 

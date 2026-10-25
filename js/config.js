@@ -36,7 +36,7 @@ const SITE = {
   stack: ["Python", "SQL", "Power BI", "Excel", "Pandas"],
   buttons: {
     primary:   { label: "Ver proyectos", href: "#proyectos" },
-    secondary: { label: "Descargar CV",  href: "cv/CV-Eduardo-Vite.pdf" }   // href "" oculta este botón
+    secondary: { label: "Descargar CV",  href: "cv/Eduardo_Vite_cv.pdf" }   // href "" oculta este botón
   },
 
   /* Menú superior */
@@ -229,18 +229,17 @@ const SITE = {
   },
 
   /* Certificaciones / Estudios
-     - Son espacios reservados: no representan certificaciones reales todavía.
-     - Reemplaza "file" por una imagen JPG/PNG/SVG o por un PDF cuando tengas el documento.
-     - Los archivos se abren en pantalla completa al hacer clic.
+     - "file" es la portada y "images" reúne las páginas del certificado.
+     - El visor permite recorrer las imágenes con flechas o con el teclado.
   */
   certifications: {
     title: "Certificaciones / Estudios",
     intro: "Cursos y estudios que respaldan mi perfil en datos, finanzas y tributación.",
     items: [
-      { title: "Tributación y Finanzas para Negocios (40 h)", file: "images/certificaciones/tributacion-finanzas-negocios.svg", type: "image", note: "UNEMI · Vicerrectorado de Vinculación · abril 2026." },
+      { title: "Tributación y Finanzas para Negocios (40 h)", file: "images/certificaciones/tributacion-finanzas-negocios-1.png", images: ["images/certificaciones/tributacion-finanzas-negocios-1.png", "images/certificaciones/tributacion-finanzas-negocios-2.png"], type: "image", note: "UNEMI · Vicerrectorado de Vinculación · abril 2026." },
       { title: "Curso de Python Profesional", file: "images/certificaciones/Captura de pantalla 2026-09-24 160556.png", type: "image", note: "Aprendizaje sobre Bucles, tuplas, Listas, diccionarios, y manejo de Errores." },
       { title: "Introduccion a las Bases de Datos relaciones", file: "images/certificaciones/Certificado_base_de_datos.png", type: "image", note: "Conocimiento Sólido en: Bases de datos relacionales y Querys Intermedias, manejo de Datos, Análisis de Datos y su estructura." },
-      { title: "Python (Intermedio-Avanzado)", file: "images/certificaciones/Certificado_unemi_python.png", type: "image", note: "Conocimiento y aprendizaje tales como PANDAS, Programación orientada a objetos y estructuras de Datos." },
+      { title: "Python (Intermedio-Avanzado)", file: "images/certificaciones/python-intermedio-avanzado-1.png", images: ["images/certificaciones/python-intermedio-avanzado-1.png", "images/certificaciones/python-intermedio-avanzado-2.png"], type: "image", note: "UNEMI · 40 h · abril 2026. Estructuras de datos, programación orientada a objetos y APIs." },
       { title: "Curso de bases y conceptos de la ciencia de Datos", file: "images/certificaciones/Curso_bases_ciencia_de_datos.png", type: "image", note: "Introducción en Machine learning y vectores, además de sistemas relacionales." }
     ]
   },
@@ -290,7 +289,7 @@ Object.assign(SITE_EN, {
   pageDescription: "Portfolio of Eduardo Vite León, data analyst with experience in credit, bank reconciliation and retail. Analysis, automation and visualization with Python, SQL Server, Power BI and Excel.",
   role: "Data Analyst · Reconciliation & Credit",
   tagline: "I turn payment, credit and bank reconciliation data into reliable information, automation and dashboards for better decisions.",
-  buttons: { primary: { label: "View projects", href: "#proyectos" }, secondary: { label: "Download CV", href: "cv/CV-Eduardo-Vite.pdf" } },
+  buttons: { primary: { label: "View projects", href: "#proyectos" }, secondary: { label: "Download CV", href: "cv/Eduardo_Vite_cv.pdf" } },
   nav: [
     { label: "About", href: "#sobre-mi" },
     { label: "Projects", href: "#proyectos" },
@@ -403,10 +402,10 @@ Object.assign(SITE_EN, {
     title: "Certifications / Education",
     intro: "Courses and studies that support my profile in data, finance and taxation.",
     items: [
-      { title: "Taxation and Finance for Business (40 h)", file: "images/certificaciones/tributacion-finanzas-negocios.svg", type: "image", note: "UNEMI · Outreach Vice-Rectorate · April 2026." },
+      { title: "Taxation and Finance for Business (40 h)", file: "images/certificaciones/tributacion-finanzas-negocios-1.png", images: ["images/certificaciones/tributacion-finanzas-negocios-1.png", "images/certificaciones/tributacion-finanzas-negocios-2.png"], type: "image", note: "UNEMI · Outreach Vice-Rectorate · April 2026." },
       { title: "Professional Python Course", file: "images/certificaciones/Captura de pantalla 2026-09-24 160556.png", type: "image", note: "Loops, tuples, lists, dictionaries and error handling." },
       { title: "Introduction to Relational Databases", file: "images/certificaciones/Certificado_base_de_datos.png", type: "image", note: "Relational databases, intermediate queries, data handling and structure." },
-      { title: "Python (Intermediate-Advanced)", file: "images/certificaciones/Certificado_unemi_python.png", type: "image", note: "Pandas, object-oriented programming and data structures." },
+      { title: "Python (Intermediate-Advanced)", file: "images/certificaciones/python-intermedio-avanzado-1.png", images: ["images/certificaciones/python-intermedio-avanzado-1.png", "images/certificaciones/python-intermedio-avanzado-2.png"], type: "image", note: "UNEMI · 40 h · April 2026. Data structures, object-oriented programming and APIs." },
       { title: "Data Science Basics and Concepts", file: "images/certificaciones/Curso_bases_ciencia_de_datos.png", type: "image", note: "Introduction to machine learning, vectors and relational systems." }
     ]
   },
